@@ -20,4 +20,11 @@ export function loginUserToGithub () {
   })
 }
 
+export const logOut = () => {
+  firebase.auth().signOut().then(() => {
+    console.log('Log out')
+  }).catch(error => {
+    console.log('Log out Failure! ' + error)
+  })
+}
 export const ref = firebase.database().ref()

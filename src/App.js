@@ -5,9 +5,9 @@ import Dashboard from './pages/Dashboard'
 import firebase from './utils/firebase/config'
 
 const renderPage = () => {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState(false)
   firebase.auth().onAuthStateChanged((userData) => {
-    setUser(userData)
+    setUser(!!userData)
   })
   return user ? <Dashboard /> : <LoginPage />
 }
