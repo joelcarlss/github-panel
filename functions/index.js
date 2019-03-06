@@ -41,3 +41,26 @@ exports.makeUppercase = functions.database.ref('/messages/{pushId}/original')
 exports.populateDb = functions.auth.user().onCreate((user) => {
   console.log(user)
 })
+
+exports.getGithubDataFromToken = functions.firestore.document('/githubToken/{userId}/token')
+    .onWrite(async(snapshot, context) => {
+      const token = snapshot.val()
+      let userRepos = await getUserRepos(token)
+      let userId = context.params.userId
+      admin.firestore().collection().doc(userId).set({ current: userRepos })
+    })
+
+const getUserRepos = async (token) => {
+  try {
+    const result = await window.fetch('https://api.github.com/user/repos', {headers: {Authorization: 'token ' + token}})
+    let data = await result.json()
+    let obj = {}
+    data.forEach(async element => {
+      obj[element.id] = element
+    })
+    return obj
+  } catch (e) {
+    console.log('ERROR')
+    console.log('There was an error fetching the data: ' + e)
+  }
+}

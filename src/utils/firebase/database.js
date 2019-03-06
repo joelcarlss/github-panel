@@ -10,3 +10,14 @@ export const populateDatabaseWithGithubDataByToken = async (token) => {
   })
   await firebase.firestore().collection('repos').doc(user.uid).set({ current: obj })
 }
+
+export const putTokenToDatabase = async (token) => {
+  let user = await firebase.auth().currentUser
+  await firebase.firestore().collection('githubToken').doc(user.uid).set({ token })
+}
+
+export const onRepos = (cb) => {
+  let user = firebase.auth().currentUser
+  firebase.firestore().collection('repos').doc(user.uid)
+      .onSnapshot(doc => cb(doc))
+}

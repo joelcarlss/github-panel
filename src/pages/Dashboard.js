@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import Navbar from '../components/Navbar'
 import Repos from '../components/Repos'
-import firebase from '../utils/firebase/config'
 import { logOut } from '../utils/firebase/login'
-import {populateDatabaseWithGithubDataByToken} from '../utils/firebase/database'
+import {populateDatabaseWithGithubDataByToken, onRepos} from '../utils/firebase/database'
 
 const onLogoutClick = () => {
   logOut()
@@ -22,12 +21,7 @@ const Dashboard = () => {
     } catch (e) {
       console.log(e) // TODO: Show data from API instead?
     }
-    let user = firebase.auth().currentUser
-    firebase.firestore().collection('repos').doc(user.uid)
-    .onSnapshot(function (doc) {
-      console.log(doc.data())
-      setRepos(doc.data())
-    })
+    onRepos((doc) => setRepos(doc.data()))
   }, [])
 
   console.log(repos)
@@ -35,7 +29,7 @@ const Dashboard = () => {
   return (
     <div>
       <Navbar onLogoutClick={() => onLogoutClick()} onMenuClick={() => onMenuClick()} />
-      <Repos />
+      <Repos repositories={repos} />
     </div>
   )
 }

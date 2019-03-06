@@ -1,4 +1,5 @@
 import firebase from './config'
+import {putTokenToDatabase} from './database'
 import Firebase from 'firebase'
 
 export function loginUserToGithub () {
@@ -9,10 +10,8 @@ export function loginUserToGithub () {
   })
   firebase.auth().signInWithPopup(provider).then(function (result) {
     if (result.credential) {
-      // This gives you a GitHub Access Token. You can use it to access the GitHub API.
       var token = result.credential.accessToken
-      console.log('TOKEN: ' + token)
-      window.localStorage.setItem('token', token)
+      putTokenToDatabase(token)
     }
     // The signed-in user info.
   }).catch(function (error) {
