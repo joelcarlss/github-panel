@@ -15,16 +15,14 @@ const onMenuClick = () => {
 const Dashboard = () => {
   const [repos, setRepos] = useState(false)
   useEffect(() => {
-    let token = window.localStorage.getItem('token') // TODO: Not a local storage variable
     try {
+      let token = window.localStorage.getItem('token') // TODO: Not a local storage variable
       populateDatabaseWithGithubDataByToken(token)
     } catch (e) {
       console.log(e) // TODO: Show data from API instead?
     }
     onRepos((doc) => setRepos(doc.data()))
   }, [])
-
-  console.log(repos)
 
   return (
     <div>

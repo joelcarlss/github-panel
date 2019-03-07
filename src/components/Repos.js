@@ -1,12 +1,26 @@
 import React from 'react'
-import {Paper} from '@material-ui/core'
+import RepoCard from './RepoCard'
+
+const showRepoList = (repos) => {
+  console.log(repos)
+  for (let key in repos) {
+    console.log(key)
+  }
+}
+
+const showRepo = (repo) => {
+  return (
+    <div>
+      <RepoCard />
+    </div>
+  )
+}
 
 const Repos = (props) => {
-  console.log('console.l  ' + props.repositories)
   return (
-    <Paper>
-      <p>Repos</p>
-    </Paper>
+    <div>
+      {showRepoList(props.repositories)}
+    </div>
   )
 }
 

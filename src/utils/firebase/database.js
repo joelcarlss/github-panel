@@ -21,3 +21,9 @@ export const onRepos = (cb) => {
   firebase.firestore().collection('repos').doc(user.uid)
       .onSnapshot(doc => cb(doc))
 }
+
+export const onToken = (cb) => {
+  let user = firebase.auth().currentUser
+  firebase.firestore().collection('githubToken').doc(user.uid)
+        .onSnapshot(doc => cb(doc))
+}

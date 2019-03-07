@@ -1,5 +1,5 @@
 import firebase from './config'
-import {putTokenToDatabase} from './database'
+// import {putTokenToDatabase} from './database'
 import Firebase from 'firebase'
 
 export function loginUserToGithub () {
@@ -11,7 +11,7 @@ export function loginUserToGithub () {
   firebase.auth().signInWithPopup(provider).then(function (result) {
     if (result.credential) {
       var token = result.credential.accessToken
-      putTokenToDatabase(token)
+      window.localStorage.setItem('token', token)
     }
     // The signed-in user info.
   }).catch(function (error) {
