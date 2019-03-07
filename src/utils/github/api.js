@@ -2,7 +2,6 @@ export const getUserRepos = async (token) => {
   try {
     const result = await window.fetch('https://api.github.com/user/repos', {headers: {Authorization: 'token ' + token}})
     let data = await result.json()
-    getWebhooks(token)
     return data
   } catch (e) {
     console.log('ERROR')
@@ -10,13 +9,11 @@ export const getUserRepos = async (token) => {
   }
 }
 
-export const getWebhooks = async (token) => {
+export const getWebhooks = async (token, owner, repo) => {
   try {
-    const result = await window.fetch(`https://api.github.com/repos/user/hooks`,
+    const result = await window.fetch(`https://api.github.com/repos/${owner}/${repo}/hooks`,
     {headers: {Authorization: 'token ' + token}})
     let data = await result.json()
-    console.log('____________________________')
-    console.log(data)
     return data
   } catch (e) {
     console.log('ERROR')

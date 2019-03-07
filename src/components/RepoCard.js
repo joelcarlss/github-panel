@@ -22,6 +22,15 @@ const OnIssuesClick = (repo) => {
 }
 const OnSubscribe = (repo) => {
 }
+const subscribeButton = (repo) => {
+  if (repo.permissions.admin) {
+    return (
+      <Button size='small' color='primary' onClick={() => OnSubscribe(repo)}>
+        Subscription
+      </Button>
+    )
+  }
+}
 
 function RepoCard (props) {
   const { classes, repo } = props
@@ -42,13 +51,11 @@ function RepoCard (props) {
           </Typography>
         </CardContent>
       </CardActionArea>
-      <CardActions>
+      <CardActions style={{marginBottom: '0'}}>
         <Button size='small' color='primary'onClick={() => OnIssuesClick(repo)}>
           Issues
         </Button>
-        <Button size='small' color='primary' onClick={() => OnSubscribe(repo)}>
-          Subscribe
-        </Button>
+        {subscribeButton(repo)}
       </CardActions>
     </Card>
   )
