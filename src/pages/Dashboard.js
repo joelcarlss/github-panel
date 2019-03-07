@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import Navbar from '../components/Navbar'
 import Repos from '../components/Repos'
+import Menu from '../components/Menu'
 import { logOut } from '../utils/firebase/login'
 import {populateDatabaseWithGithubDataByToken, onRepos} from '../utils/firebase/database'
 
@@ -8,12 +9,9 @@ const onLogoutClick = () => {
   logOut()
 }
 
-const onMenuClick = () => {
-  console.log('Menu click')
-}
-
 const Dashboard = () => {
   const [repos, setRepos] = useState(false)
+  const [showMenu, setShowMenu] = useState(false)
   useEffect(() => {
     try {
       let token = window.localStorage.getItem('token') // TODO: Not a local storage variable
@@ -26,7 +24,8 @@ const Dashboard = () => {
 
   return (
     <div>
-      <Navbar onLogoutClick={() => onLogoutClick()} onMenuClick={() => onMenuClick()} />
+      <Menu showMenu={showMenu} setShowMenu={setShowMenu} />
+      <Navbar onLogoutClick={() => onLogoutClick()} onMenuClick={() => setShowMenu(true)} />
       <Repos repositories={repos} />
     </div>
   )

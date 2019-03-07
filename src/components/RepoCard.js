@@ -20,8 +20,7 @@ const styles = {
 const OnIssuesClick = (repo) => {
 
 }
-const OnVisitClick = (repo) => {
-  console.log('Click on Visit Github')
+const OnSubscribe = (repo) => {
 }
 
 function RepoCard (props) {
@@ -47,8 +46,8 @@ function RepoCard (props) {
         <Button size='small' color='primary'onClick={() => OnIssuesClick(repo)}>
           Issues
         </Button>
-        <Button size='small' color='primary' onClick={() => OnVisitClick(repo)}>
-          Visit Github
+        <Button size='small' color='primary' onClick={() => OnSubscribe(repo)}>
+          Subscribe
         </Button>
       </CardActions>
     </Card>
