@@ -2,24 +2,25 @@ import React from 'react'
 import RepoCard from './RepoCard'
 
 const showRepoList = (repos) => {
-  console.log(repos)
-  for (let key in repos) {
-    console.log(key)
+  let arr = []
+  if (repos) {
+    for (let key in repos) {
+      arr.push(showRepo(repos[key]))
+    }
   }
+  return arr
 }
 
 const showRepo = (repo) => {
   return (
-    <div>
-      <RepoCard />
-    </div>
+    <RepoCard key={repo.id} repo={repo} />
   )
 }
 
 const Repos = (props) => {
   return (
-    <div>
-      {showRepoList(props.repositories)}
+    <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
+      {showRepoList(props.repositories.current)}
     </div>
   )
 }

@@ -8,7 +8,6 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-
 const styles = {
   card: {
     maxWidth: 345
@@ -18,32 +17,38 @@ const styles = {
   }
 }
 
+const OnIssuesClick = (repo) => {
+
+}
+const OnVisitClick = (repo) => {
+  console.log('Click on Visit Github')
+}
+
 function RepoCard (props) {
-  const { classes } = props
+  const { classes, repo } = props
   return (
-    <Card className={classes.card}>
+    <Card className={classes.card} style={{width: '25%', margin: '0.2%'}}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image='/static/images/cards/contemplative-reptile.jpg'
-          title='Contemplative Reptile'
+          image={repo.owner.avatar_url}
+          title={repo.owner.login}
         />
         <CardContent>
           <Typography gutterBottom variant='h5' component='h2'>
-            Lizard
+            {repo.name}
           </Typography>
           <Typography component='p'>
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
+            Text
           </Typography>
         </CardContent>
       </CardActionArea>
       <CardActions>
-        <Button size='small' color='primary'>
-          Share
+        <Button size='small' color='primary'onClick={() => OnIssuesClick(repo)}>
+          Issues
         </Button>
-        <Button size='small' color='primary'>
-          Learn More
+        <Button size='small' color='primary' onClick={() => OnVisitClick(repo)}>
+          Visit Github
         </Button>
       </CardActions>
     </Card>
