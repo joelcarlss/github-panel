@@ -11,6 +11,16 @@ export const populateDatabaseWithGithubDataByToken = async (token) => {
   await firebase.firestore().collection('repos').doc(user.uid).set({ current: obj })
 }
 
+export const updateDatabaseWithGithubDataByToken = async (token) => {
+  let userRepos = await getUserRepos(token)
+  let user = await firebase.auth().currentUser
+  let obj = {}
+  userRepos.forEach(async element => {
+    obj[element.id] = element
+  })
+  await firebase.firestore().collection('repos').doc(user.uid).update({ current: obj })
+}
+
 export const putTokenToDatabase = async (token) => {
   let user = await firebase.auth().currentUser
   await firebase.firestore().collection('githubToken').doc(user.uid).set({ token })

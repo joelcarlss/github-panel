@@ -3,7 +3,7 @@ import Navbar from '../components/Navbar'
 import Repos from '../components/Repos'
 import Menu from '../components/Menu'
 import { logOut } from '../utils/firebase/login'
-import {populateDatabaseWithGithubDataByToken, onRepos} from '../utils/firebase/database'
+import {updateDatabaseWithGithubDataByToken, onRepos} from '../utils/firebase/database'
 
 const onLogoutClick = () => {
   logOut()
@@ -15,7 +15,7 @@ const Dashboard = () => {
   useEffect(() => {
     try {
       let token = window.localStorage.getItem('token') // TODO: Not a local storage variable
-      populateDatabaseWithGithubDataByToken(token)
+      // updateDatabaseWithGithubDataByToken(token)
     } catch (e) {
       console.log(e) // TODO: Show data from API instead?
     }
