@@ -41,3 +41,13 @@ exports.makeUppercase = functions.database.ref('/messages/{pushId}/original')
 exports.populateDb = functions.auth.user().onCreate((user) => {
   console.log(user)
 })
+
+exports.onWebhook = functions.https.onRequest((req, res) => {
+  // Grab the text parameter.
+  const original = req
+  // Push the new message into the Realtime Database using the Firebase Admin SDK.
+  return admin.database().ref('/messages').push({original: original}).then((snapshot) => {
+    // Redirect with 303 SEE OTHER to the URL of the pushed object in the Firebase console.
+    return res.send(200)
+  })
+})
