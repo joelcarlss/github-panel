@@ -14,8 +14,8 @@ const Dashboard = () => {
   const [showMenu, setShowMenu] = useState(false)
   useEffect(() => {
     try {
-      // let token = window.localStorage.getItem('token') // TODO: Not a local storage variable
-      // updateDatabaseWithGithubDataByToken(token)
+      let token = window.localStorage.getItem('token') // TODO: Not a local storage variable
+      updateDatabaseWithGithubDataByToken(token)
     } catch (e) {
       console.log(e) // TODO: Show data from API instead?
     }

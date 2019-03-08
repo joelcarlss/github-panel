@@ -9,7 +9,7 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 
-import { createWebHook } from '../utils/github/api'
+import { setWebhookOnRepo } from '../utils/functions'
 
 const styles = {
   card: {
@@ -27,7 +27,8 @@ const OnIssuesClick = (repo) => {
 
 }
 const OnSubscribe = (repo) => {
-//   createWebHook(repo)
+  console.log(repo)
+//   setWebhookOnRepo(repo)
 }
 const subscribeButton = (repo) => {
   let buttonColor = 'primary'
@@ -39,7 +40,7 @@ const subscribeButton = (repo) => {
     }
     return (
       <Button size='small' variant='contained' color={buttonColor} onClick={() => OnSubscribe(repo)}>
-        {subscribeText}
+        { subscribeText }
       </Button>
     )
   }

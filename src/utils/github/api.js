@@ -26,18 +26,27 @@ export const createWebhook = async (token, repo) => {
   let repoName = repo.name
   let url = 'https://us-central1-githubdashboard-1cbfc.cloudfunctions.net/onWebhook'
   let data = {
-    name: 'Webhook',
+    name: 'web',
     active: true,
     events: ['push', 'issues'],
     config: {
       url
     }
   }
+  sendWebhookRequest(token, owner, repoName, data)
+}
+
+export const deleteWebhook = () => {}
+
+const sendWebhookRequest = async (token, owner, repoName, data) => {
   try {
     const result = await window.fetch(`https://api.github.com/repos/${owner}/${repoName}/hooks`,
       {
-        headers: {Authorization: 'token ' + token},
-        body: data,
+        headers: {
+          Authorization: 'token ' + token,
+          Accept: 'application/vnd.github.v3+json'
+        },
+        body: JSON.stringify(data),
         method: 'POST'
       })
     let jsonResult = await result.json()
