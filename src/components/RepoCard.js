@@ -8,12 +8,18 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
+
+import { createWebHook } from '../utils/github/api'
+
 const styles = {
   card: {
     maxWidth: 345
   },
   media: {
     height: 140
+  },
+  button: {
+    color: 'gray'
   }
 }
 
@@ -21,12 +27,19 @@ const OnIssuesClick = (repo) => {
 
 }
 const OnSubscribe = (repo) => {
+//   createWebHook(repo)
 }
 const subscribeButton = (repo) => {
+  let buttonColor = 'primary'
+  let subscribeText = 'Subscribe'
   if (repo.permissions.admin) {
+    if (repo.webhooks.length > 0) {
+      buttonColor = 'default'
+      subscribeText = 'Edit subscription'
+    }
     return (
-      <Button size='small' color='primary' onClick={() => OnSubscribe(repo)}>
-        Subscription
+      <Button size='small' variant='contained' color={buttonColor} onClick={() => OnSubscribe(repo)}>
+        {subscribeText}
       </Button>
     )
   }
@@ -52,7 +65,7 @@ function RepoCard (props) {
         </CardContent>
       </CardActionArea>
       <CardActions style={{marginBottom: '0'}}>
-        <Button size='small' color='primary'onClick={() => OnIssuesClick(repo)}>
+        <Button size='small' variant='contained' onClick={() => OnIssuesClick(repo)}>
           Issues
         </Button>
         {subscribeButton(repo)}
