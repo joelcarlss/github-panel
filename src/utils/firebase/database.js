@@ -20,10 +20,10 @@ export const putTokenToDatabase = async (token) => {
   await firebase.firestore().collection('githubToken').doc(user.uid).set({ token })
 }
 
-export const addWebhookToDb = async (hook) => {
+export const updateRepo = async (token, repo) => {
   let user = await firebase.auth().currentUser
-  return 'I do nothing'
-  // await firebase.firestore().collection('repos').doc(user.uid).up
+  // hook.html_url
+  await firebase.firestore().collection('repos').doc(user.uid + '/current/').update({[repo.id]: repo})
 }
 
 export const onRepos = (cb) => {

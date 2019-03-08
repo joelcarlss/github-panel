@@ -44,7 +44,10 @@ exports.populateDb = functions.auth.user().onCreate((user) => {
 
 exports.onWebhook = functions.https.onRequest((req, res) => {
   // Grab the text parameter.
-  return admin.firestore().collection('/test/').push({data: req}).then((snapshot) => {
-    return res.send(200)
-  })
+  let data = req.body
+  console.log(data)
+
+  // return admin.firestore().collection('/test/').add({data: req}).then((snapshot) => {
+  //   return res.send(200)
+  // })
 })

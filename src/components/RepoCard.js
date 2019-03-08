@@ -28,7 +28,7 @@ const OnIssuesClick = (repo) => {
 }
 const OnSubscribe = (repo) => {
   console.log(repo)
-//   setWebhookOnRepo(repo)
+//   updateRepoAndWebhooks(repo)
 }
 const subscribeButton = (repo) => {
   let buttonColor = 'primary'
