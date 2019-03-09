@@ -9,7 +9,7 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 
-import { setWebhookOnRepo } from '../utils/functions'
+import { createWebhookAndUpdateRepo, deleteWebhookAndUpdateRepo } from '../utils/functions'
 
 const styles = {
   card: {
@@ -28,21 +28,27 @@ const OnIssuesClick = (repo) => {
 }
 const OnSubscribe = (repo) => {
   console.log(repo)
-//   updateRepoAndWebhooks(repo)
+  createWebhookAndUpdateRepo(repo)
+}
+const OnUnsubscribe = (repo) => {
+  console.log(repo)
+  deleteWebhookAndUpdateRepo(repo)
 }
 const subscribeButton = (repo) => {
-  let buttonColor = 'primary'
-  let subscribeText = 'Subscribe'
   if (repo.permissions.admin) {
     if (repo.webhooks.length > 0) {
-      buttonColor = 'default'
-      subscribeText = 'Edit subscription'
-    }
-    return (
-      <Button size='small' variant='contained' color={buttonColor} onClick={() => OnSubscribe(repo)}>
-        { subscribeText }
+      return (
+        <Button size='small' variant='contained' color={'default'} onClick={() => OnUnsubscribe(repo)}>
+          Unsubscribe
+        </Button>
+      )
+    } else {
+      return (
+        <Button size='small' variant='contained' color={'primary'} onClick={() => OnSubscribe(repo)}>
+        Subscribe
       </Button>
-    )
+      )
+    }
   }
 }
 
