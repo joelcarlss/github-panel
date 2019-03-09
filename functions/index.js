@@ -43,11 +43,25 @@ exports.populateDb = functions.auth.user().onCreate((user) => {
 })
 
 exports.onWebhook = functions.https.onRequest((req, res) => {
-  // Grab the text parameter.
-  let data = req.body
-  console.log(data)
+  let hook = JSON.parse(req.body.payload)
+  let id = hook.sender.id
+  // console.log('SenderName' + hook.sender.login)
+
+  admin.firestore().collection('users').where('githubUserId', '==', id)
+  .get()
+  .then((querySnapshot) => {
+    let id
+    querySnapshot.forEach((doc) => {
+        // doc.data() is never undefined for query doc snapshots
+      id = doc.data().userId
+    })
+    return id
+  })
+  .then((userId) => console.log(userId))
+  .catch(() => console.log)
 
   // return admin.firestore().collection('/test/').add({data: req}).then((snapshot) => {
   //   return res.send(200)
   // })
+  res.send(200)
 })

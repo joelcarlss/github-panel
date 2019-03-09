@@ -8,6 +8,9 @@ deployhosting:
 deploy:
 	firebase deploy
 
+deployhook:
+	firebase deploy --only functions:onWebhook
+
 i:
 	npm install
 

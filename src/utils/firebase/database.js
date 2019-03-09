@@ -25,6 +25,18 @@ export const updateRepoToDatabase = async (repo) => {
   await firebase.firestore().collection('repos').doc(user.uid).update({[repo.id]: repo})
 }
 
+export const setUserToDb = async (githubUserId, githubUserName) => {
+  let user = await firebase.auth().currentUser
+  firebase.firestore().collection('users').doc(user.uid).set(
+    {
+      userId: user.uid,
+      githubUserId,
+      githubUserName
+    }
+   )
+  .then(() => console.log)
+}
+
 export const onRepos = (cb) => {
   let user = firebase.auth().currentUser
   firebase.firestore().collection('repos').doc(user.uid)
