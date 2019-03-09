@@ -50,11 +50,10 @@ export const createWebhook = async (token, repo) => {
   return response
 }
 
-export const deleteWebhook = (token, repo) => {
+export const deleteWebhook = (token, repo, hookId) => {
   let owner = repo.owner.login
   let repoName = repo.name
   try {
-    let hookId = findHookIdInRepo(repo)
     return window.fetch(`https://api.github.com/repos/${owner}/${repoName}/hooks/${hookId}`,
       {
         headers: {
@@ -67,17 +66,6 @@ export const deleteWebhook = (token, repo) => {
     console.log('ERROR')
     console.log('There was an error fetching the data: ' + e)
   }
-}
-
-const findHookIdInRepo = (repo) => {
-  let hooks = repo.webhooks
-  let id
-  for (let i = 0; i < hooks.length; i++) {
-    if (hooks[i].config.url === webhookUrl) {
-      id = hooks[i].id
-    }
-  }
-  return id
 }
 
 const sendWebhookRequest = async (token, owner, repoName, data) => {

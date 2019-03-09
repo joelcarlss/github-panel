@@ -38,7 +38,8 @@ export const deleteWebhookAndUpdateRepo = (repo) => {
   let token = getGithubToken()
   let owner = repo.owner.login
   let repoName = repo.name
-  deleteWebhook(token, repo)
+  let hookId = findCorrectHookIdInRepo(repo)
+  deleteWebhook(token, repo, hookId)
   .then(result => {
     console.log(result)
     if (result.status === 204 || result.status === 404) {
@@ -74,12 +75,24 @@ export const getGithubToken = () => {
   return token
 }
 
+export const findCorrectHookIdInRepo = (repo) => {
+  let hooks = repo.webhooks
+  let id
+  for (let i = 0; i < hooks.length; i++) {
+    if (hooks[i].config.url === webhookUrl) {
+      id = hooks[i].id
+    }
+  }
+  return id
+}
+
 const getGithubWebhooks = async (repo, token) => {
   let array = []
   if (repo.permissions.admin) {
     let owner = repo.owner.login
     let repoName = repo.name
     array = await getWebhooks(token, owner, repoName)
+    console.log(array)
   }
   return array
 }

@@ -9,7 +9,7 @@ import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
 
-import { createWebhookAndUpdateRepo, deleteWebhookAndUpdateRepo } from '../utils/functions'
+import { createWebhookAndUpdateRepo, deleteWebhookAndUpdateRepo, findCorrectHookIdInRepo } from '../utils/functions'
 
 const styles = {
   card: {
@@ -34,7 +34,7 @@ const OnUnsubscribe = (repo) => {
 }
 const subscribeButton = (repo) => {
   if (repo.permissions.admin) {
-    if (repo.webhooks.length > 0) {
+    if (findCorrectHookIdInRepo(repo)) {
       return (
         <Button size='small' variant='contained' color={'default'} onClick={() => OnUnsubscribe(repo)}>
           Unsubscribe
