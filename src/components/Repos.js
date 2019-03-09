@@ -20,7 +20,7 @@ const showRepo = (repo) => {
 const Repos = (props) => {
   return (
     <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
-      {showRepoList(props.repositories.current)}
+      {showRepoList(props.repositories)}
     </div>
   )
 }

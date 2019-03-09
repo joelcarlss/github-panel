@@ -1,4 +1,4 @@
-const webhookUrl = 'https://us-central1-githubdashboard-1cbfc.cloudfunctions.net/onWebhook'
+export const webhookUrl = 'https://us-central1-githubdashboard-1cbfc.cloudfunctions.net/onWebhook'
 
 export const getUserRepos = async (token) => {
   try {
@@ -25,10 +25,9 @@ export const getUserRepo = async (token, owner, repoName) => {
 
 export const getWebhooks = async (token, owner, repoName) => {
   try {
-    const result = await window.fetch(`https://api.github.com/repos/${owner}/${repoName}/hooks`,
+    return window.fetch(`https://api.github.com/repos/${owner}/${repoName}/hooks`,
     {headers: {Authorization: 'token ' + token}})
-    let data = await result.json()
-    return data
+    .then(result => result.json())
   } catch (e) {
     console.log('ERROR')
     console.log('There was an error fetching the data: ' + e)
@@ -51,13 +50,12 @@ export const createWebhook = async (token, repo) => {
   return response
 }
 
-export const deleteWebhook = async (token, repo) => {
+export const deleteWebhook = (token, repo) => {
   let owner = repo.owner.login
   let repoName = repo.name
   try {
     let hookId = findHookIdInRepo(repo)
-    console.log(hookId) // '/repos/:owner/:repo/hooks/:hook_id'
-    const data = await window.fetch(`https://api.github.com/repos/${owner}/${repoName}/hooks/${hookId}`,
+    return window.fetch(`https://api.github.com/repos/${owner}/${repoName}/hooks/${hookId}`,
       {
         headers: {
           Authorization: 'token ' + token,
@@ -65,9 +63,6 @@ export const deleteWebhook = async (token, repo) => {
         },
         method: 'DELETE'
       })
-    // let jsonResult = await result.json()
-    console.log(data)
-    return data
   } catch (e) {
     console.log('ERROR')
     console.log('There was an error fetching the data: ' + e)

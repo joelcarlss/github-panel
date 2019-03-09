@@ -1,5 +1,5 @@
 import {updateRepoToDatabase} from './firebase/database'
-import {getUserRepo, getUserRepos, getWebhooks, createWebhook, deleteWebhook} from './github/api'
+import {webhookUrl, getUserRepo, getUserRepos, getWebhooks, createWebhook, deleteWebhook} from './github/api'
 
 // export const getUserReposAndWebhooksAsObject = async (token) => {
 //   let userRepos = await getUserRepos(token)
@@ -39,15 +39,34 @@ export const deleteWebhookAndUpdateRepo = (repo) => {
   let owner = repo.owner.login
   let repoName = repo.name
   deleteWebhook(token, repo)
-  .then(updateRepo(owner, repoName))
+  .then(result => {
+    console.log(result)
+    if (result.status === 204 || result.status === 404) {
+      spliceWebhookAndUpdateRepo(repo)
+    } else {
+      updateRepo(owner, repoName)
+    }
+  }
+      )
+}
+
+export const spliceWebhookAndUpdateRepo = (repo) => {
+  repo.webhooks.forEach((element, i) => {
+    if (element.config.url === webhookUrl) {
+      repo.webhooks.splice(i)
+    }
+  })
+  updateRepoToDatabase(repo)
 }
 
 export const updateRepo = async (owner, repoName) => {
   let token = getGithubToken()
   let newRepo = await getUserRepo(token, owner, repoName)
-  let repoWebhookList = await getGithubWebhooks(newRepo, token)
-  newRepo.webhooks = repoWebhookList
-  updateRepoToDatabase(newRepo)
+  getGithubWebhooks(newRepo, token)
+  .then(repoWebhooks => {
+    newRepo.webhooks = repoWebhooks
+    updateRepoToDatabase(newRepo)
+  })
 }
 
 export const getGithubToken = () => {

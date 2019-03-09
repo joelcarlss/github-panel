@@ -27,11 +27,9 @@ const OnIssuesClick = (repo) => {
 
 }
 const OnSubscribe = (repo) => {
-  console.log(repo)
   createWebhookAndUpdateRepo(repo)
 }
 const OnUnsubscribe = (repo) => {
-  console.log(repo)
   deleteWebhookAndUpdateRepo(repo)
 }
 const subscribeButton = (repo) => {
