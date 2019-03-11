@@ -15,8 +15,26 @@ import {webhookUrl, getUserRepo, getUserRepos, getWebhooks, createWebhook, delet
 //   return obj
 // }
 
+export const saveUserSettings = (settings) => {
+  let admin = settings.showAdmin || false
+  let organisations = settings.showOrganisations || false
+  window.localStorage.setItem('organisations', organisations)
+  window.localStorage.setItem('admin', admin)
+}
+
+export const getUserSettings = () => {
+  let settings = {}
+  settings.showAdmin = window.localStorage.getItem('admin') || false
+  settings.showOrganisations = window.localStorage.getItem('organisations') || false
+  return settings
+}
+
 export const saveToken = (token) => {
   window.localStorage.setItem('token', token)
+}
+
+export const getToken = () => {
+  return window.localStorage.getItem('token')
 }
 
 export const saveUserToDb = async () => {

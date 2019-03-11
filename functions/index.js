@@ -57,7 +57,13 @@ exports.onWebhook = functions.https.onRequest((req, res) => {
     })
     return id
   })
-  .then((userId) => console.log(userId))
+  .then((userId) => {
+    return admin.messaging().sendToTopic('News', payload)
+  })
+  .then((response) => {
+    console.log('Notification sent successfully:', response)
+    return true
+  })
   .catch(() => console.log)
 
   // return admin.firestore().collection('/test/').add({data: req}).then((snapshot) => {

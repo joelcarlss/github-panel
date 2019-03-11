@@ -61,24 +61,6 @@ export const createWebhook = async (token, repo) => {
   return response
 }
 
-export const deleteWebhook = (token, repo, hookId) => {
-  let owner = repo.owner.login
-  let repoName = repo.name
-  try {
-    return window.fetch(`https://api.github.com/repos/${owner}/${repoName}/hooks/${hookId}`,
-      {
-        headers: {
-          Authorization: 'token ' + token,
-          Accept: 'application/vnd.github.v3+json'
-        },
-        method: 'DELETE'
-      })
-  } catch (e) {
-    console.log('ERROR')
-    console.log('There was an error fetching the data: ' + e)
-  }
-}
-
 const sendWebhookRequest = async (token, owner, repoName, data) => {
   try {
     const result = await window.fetch(`https://api.github.com/repos/${owner}/${repoName}/hooks`,
@@ -93,6 +75,24 @@ const sendWebhookRequest = async (token, owner, repoName, data) => {
     let jsonResult = await result.json()
     console.log(jsonResult)
     return jsonResult
+  } catch (e) {
+    console.log('ERROR')
+    console.log('There was an error fetching the data: ' + e)
+  }
+}
+
+export const deleteWebhook = (token, repo, hookId) => {
+  let owner = repo.owner.login
+  let repoName = repo.name
+  try {
+    return window.fetch(`https://api.github.com/repos/${owner}/${repoName}/hooks/${hookId}`,
+      {
+        headers: {
+          Authorization: 'token ' + token,
+          Accept: 'application/vnd.github.v3+json'
+        },
+        method: 'DELETE'
+      })
   } catch (e) {
     console.log('ERROR')
     console.log('There was an error fetching the data: ' + e)
