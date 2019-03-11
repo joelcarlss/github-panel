@@ -17,10 +17,9 @@ firebase.initializeApp(config)
 const messaging = firebase.messaging()
 
 messaging.setBackgroundMessageHandler((payload) => {
-  const title = payload.title
+  const title = payload.data.title
   const options = {
-    body: payload.status
+    body: payload.data.body
   }
-  console.log('ServiceWorker')
   return self.registration.showNotification(title, options)
 })

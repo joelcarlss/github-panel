@@ -22,7 +22,19 @@ const styles = {
   }
 }
 
-const sideList = (classes, showAdmin, setShowAdmin, setShowOrganisations) => (
+const showNotices = (notices) => {
+  console.log(notices)
+  if (notices) {
+    return notices.map((obj, index) => (
+      <ListItem button key={index}>
+        {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
+        <ListItemText primary={obj.action} />
+      </ListItem>
+            ))
+  }
+}
+
+const sideList = (classes, showAdmin, setShowAdmin, setShowOrganisations, notices) => (
   <div className={classes.list}>
     <List>
       <ListItem button key={'Repositories'}>
@@ -46,12 +58,7 @@ const sideList = (classes, showAdmin, setShowAdmin, setShowOrganisations) => (
     </List>
     <Divider />
     <List>
-      {['All mail', 'Trash', 'Spam'].map((text, index) => (
-        <ListItem button key={text}>
-          <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-          <ListItemText primary={text} />
-        </ListItem>
-              ))}
+      {showNotices(notices)}
     </List>
   </div>
         )
@@ -63,7 +70,8 @@ const SwipeableTemporaryDrawer = (props) => {
     setShowMenu,
     showAdmin,
     setShowAdmin,
-    setShowOrganisations
+    setShowOrganisations,
+    notices
   } = props
   return (
     <div>
@@ -78,7 +86,7 @@ const SwipeableTemporaryDrawer = (props) => {
           onClick={() => setShowMenu(false)}
           onKeyDown={() => setShowMenu(false)}
           >
-          {sideList(classes, showAdmin, setShowAdmin, setShowOrganisations)}
+          {sideList(classes, showAdmin, setShowAdmin, setShowOrganisations, notices)}
         </div>
       </SwipeableDrawer>
     </div>

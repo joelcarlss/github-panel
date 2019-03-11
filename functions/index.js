@@ -46,22 +46,22 @@ exports.onWebhook = functions.https.onRequest((req, res) => {
   let hook = JSON.parse(req.body.payload)
   let id = hook.sender.id
   // console.log('SenderName' + hook.sender.login)
-  let title = 'Title'
-  let body = 'Body'
-  let payload = {
-    title,
-    body
-  }
+  let title = hook.action
+  let body = hook.repository.full_name
 
   admin.firestore().collection('users').where('githubUserId', '==', id)
   .get()
   .then((querySnapshot) => {
+    let messageToken
     let id
     querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
-      id = doc.data().messageToken
+      id = doc.data().userId
+      messageToken = doc.data().messageToken
     })
-    return id
+    hook.firebaseId = id
+    admin.firestore().collection('notices').add(hook)
+    return messageToken
   })
   .then((messageToken) => {
     console.log(messageToken)
