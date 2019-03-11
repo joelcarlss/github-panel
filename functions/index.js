@@ -64,9 +64,16 @@ exports.onWebhook = functions.https.onRequest((req, res) => {
     return id
   })
   .then((messageToken) => {
-    console.log(payload)
+    console.log(messageToken)
+    var message = {
+      data: {
+        title,
+        body
+      },
+      token: messageToken
+    }
 
-    return admin.messaging().sendToDevice(messageToken, payload)
+    return admin.messaging().send(message)
   })
   .then((response) => {
     console.log('Notification sent successfully:', response)

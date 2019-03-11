@@ -4,7 +4,7 @@ import Repos from '../components/Repos'
 import Menu from '../components/Menu'
 import { logOut } from '../utils/firebase/login'
 import { getToken, getUserSettings, saveUserSettings } from '../utils/functions'
-import { requestPermission } from '../utils/firebase/messaging'
+import messaging, { requestPermission } from '../utils/firebase/messaging'
 import {updateDatabaseWithGithubDataByToken, onRepos} from '../utils/firebase/database'
 
 const onLogoutClick = () => {
