@@ -3,7 +3,7 @@ import {setMessageTokenToUser} from './database'
 
 const messaging = firebase.messaging()
 
-messaging.usePublicVapidKey('BDIKjviajJRKRdsPMtforEiFQle7GbxZqlSJ8o-HELEI7zEMrJIXZgVE_eEct1g28rQvRP1GfJAIeHovyYAJsNM')
+// messaging.usePublicVapidKey('BDIKjviajJRKRdsPMtforEiFQle7GbxZqlSJ8o-HELEI7zEMrJIXZgVE_eEct1g28rQvRP1GfJAIeHovyYAJsNM')
 
 export const requestPermission = () => {
   messaging.requestPermission().then(function () {
@@ -18,6 +18,9 @@ export const requestPermission = () => {
   })
 }
 
+messaging.onMessage((payload) => {
+  console.log('Onmessage ' + payload)
+})
 // messaging.getToken().then(function (currentToken) {
 //   if (currentToken) {
 //     sendTokenToServer(currentToken)

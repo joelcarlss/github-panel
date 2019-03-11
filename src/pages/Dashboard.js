@@ -26,6 +26,7 @@ const Dashboard = () => {
     try {
       let token = getToken() // TODO: Not a local storage variable
       updateDatabaseWithGithubDataByToken(token)
+      requestPermission()
     } catch (e) {
       console.log(e) // TODO: Show data from API instead?
     }

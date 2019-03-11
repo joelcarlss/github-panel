@@ -32,6 +32,9 @@ export const setUserToDb = async (githubUserId, githubUserName) => {
       userId: user.uid,
       githubUserId,
       githubUserName
+    },
+    {
+      merge: true
     }
    )
   .then(() => console.log)
@@ -51,6 +54,6 @@ export const onToken = (cb) => {
 
 export const setMessageTokenToUser = async (messageToken) => {
   let user = await firebase.auth().currentUser
-  firebase.firestore().collection('users').doc(user.uid).update({messageToken})
+  firebase.firestore().collection('users').doc(user.uid).set({messageToken}, {merge: true})
   .then(() => console.log)
 }

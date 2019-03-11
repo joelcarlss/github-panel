@@ -46,6 +46,12 @@ exports.onWebhook = functions.https.onRequest((req, res) => {
   let hook = JSON.parse(req.body.payload)
   let id = hook.sender.id
   // console.log('SenderName' + hook.sender.login)
+  let title = 'Title'
+  let body = 'Body'
+  let payload = {
+    title,
+    body
+  }
 
   admin.firestore().collection('users').where('githubUserId', '==', id)
   .get()
@@ -53,12 +59,14 @@ exports.onWebhook = functions.https.onRequest((req, res) => {
     let id
     querySnapshot.forEach((doc) => {
         // doc.data() is never undefined for query doc snapshots
-      id = doc.data().userId
+      id = doc.data().messageToken
     })
     return id
   })
-  .then((userId) => {
-    return admin.messaging().sendToTopic('News', payload)
+  .then((messageToken) => {
+    console.log(payload)
+
+    return admin.messaging().sendToDevice(messageToken, payload)
   })
   .then((response) => {
     console.log('Notification sent successfully:', response)

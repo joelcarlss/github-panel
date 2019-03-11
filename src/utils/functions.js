@@ -1,6 +1,5 @@
-import {updateRepoToDatabase, setUserToDb, setMessageTokenToUser} from './firebase/database'
+import {updateRepoToDatabase, setUserToDb} from './firebase/database'
 import {webhookUrl, getUserRepo, getUserRepos, getWebhooks, createWebhook, deleteWebhook, getUser} from './github/api'
-import {requestPermission} from './firebase/messaging'
 
 // export const getUserReposAndWebhooksAsObject = async (token) => {
 //   let userRepos = await getUserRepos(token)
