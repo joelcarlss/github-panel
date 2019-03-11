@@ -1,6 +1,18 @@
 import React from 'react'
 import RepoCard from './RepoCard'
 
+const showList = (repos, showAdmin, showOrganisations) => {
+  if (showOrganisations) {
+    return showOrganisations(repos, showAdmin)
+  } else {
+    return showRepoList(repos, showAdmin)
+  }
+}
+
+const showOrganisations = (repos, showAdmin) => {
+
+}
+
 const showRepoList = (repos, showAdmin) => {
   let arr = []
   if (repos) {
@@ -40,7 +52,7 @@ const Repos = (props) => {
   const { repositories, showAdmin, showOrganisations } = props
   return (
     <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
-      {showRepoList(repositories, showAdmin)}
+      {showList(repositories, showAdmin, showOrganisations)}
     </div>
   )
 }

@@ -1,16 +1,22 @@
 import firebase from './config'
+import {setMessageTokenToUser} from './database'
 
 const messaging = firebase.messaging()
 
 messaging.usePublicVapidKey('BDIKjviajJRKRdsPMtforEiFQle7GbxZqlSJ8o-HELEI7zEMrJIXZgVE_eEct1g28rQvRP1GfJAIeHovyYAJsNM')
 
-messaging.requestPermission().then(function () {
-  console.log('Notification permission granted.')
-    // TODO(developer): Retrieve an Instance ID token for use with FCM.
-    // ...
-}).catch(function (err) {
-  console.log('Unable to get permission to notify.', err)
-})
+export const requestPermission = () => {
+  messaging.requestPermission().then(function () {
+    console.log('Notification permission granted.')
+    return messaging.getToken()
+  })
+  .then((token) => {
+    setMessageTokenToUser(token)
+  })
+  .catch(function (err) {
+    console.log('Unable to get permission to notify.', err)
+  })
+}
 
 // messaging.getToken().then(function (currentToken) {
 //   if (currentToken) {

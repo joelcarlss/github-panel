@@ -1,5 +1,6 @@
-import {updateRepoToDatabase, setUserToDb} from './firebase/database'
+import {updateRepoToDatabase, setUserToDb, setMessageTokenToUser} from './firebase/database'
 import {webhookUrl, getUserRepo, getUserRepos, getWebhooks, createWebhook, deleteWebhook, getUser} from './github/api'
+import {requestPermission} from './firebase/messaging'
 
 // export const getUserReposAndWebhooksAsObject = async (token) => {
 //   let userRepos = await getUserRepos(token)
@@ -24,8 +25,8 @@ export const saveUserSettings = (settings) => {
 
 export const getUserSettings = () => {
   let settings = {}
-  settings.showAdmin = window.localStorage.getItem('admin') || false
-  settings.showOrganisations = window.localStorage.getItem('organisations') || false
+  settings.showAdmin = JSON.parse(window.localStorage.getItem('admin')) || false
+  settings.showOrganisations = JSON.parse(window.localStorage.getItem('organisations')) || false
   return settings
 }
 
@@ -41,7 +42,7 @@ export const saveUserToDb = async () => {
   let token = getGithubToken()
   let user = await getUser(token)
   console.log(user)
-  setUserToDb(user.id, user.login)
+  return setUserToDb(user.id, user.login)
 }
 
 export const getUserReposAndWebhooksAsObject = async (token) => {

@@ -27,7 +27,7 @@ export const updateRepoToDatabase = async (repo) => {
 
 export const setUserToDb = async (githubUserId, githubUserName) => {
   let user = await firebase.auth().currentUser
-  firebase.firestore().collection('users').doc(user.uid).set(
+  return firebase.firestore().collection('users').doc(user.uid).set(
     {
       userId: user.uid,
       githubUserId,
@@ -47,4 +47,10 @@ export const onToken = (cb) => {
   let user = firebase.auth().currentUser
   firebase.firestore().collection('githubToken').doc(user.uid)
         .onSnapshot(doc => cb(doc))
+}
+
+export const setMessageTokenToUser = async (messageToken) => {
+  let user = await firebase.auth().currentUser
+  firebase.firestore().collection('users').doc(user.uid).update({messageToken})
+  .then(() => console.log)
 }
