@@ -109,3 +109,14 @@ export const deleteWebhook = (token, repo, hookId) => {
     console.log('There was an error fetching the data: ' + e)
   }
 }
+
+export const githubGetRequest = async (url, token) => {
+  try {
+    const result = await window.fetch(url, {headers: {Authorization: 'token ' + token}})
+    let data = await result.json()
+    return data
+  } catch (e) {
+    console.log('ERROR')
+    console.log('There was an error fetching the data: ' + e)
+  }
+}

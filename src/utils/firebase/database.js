@@ -1,18 +1,20 @@
 import firebase from './config'
-import {getUserReposAndWebhooksAsObject} from '../functions'
+import {getUserReposAndWebhooksAsObject, getUserOrganisationsAsObject} from '../functions'
 
 export const populateDatabaseWithGithubDataByToken = async (token) => {
   let user = await firebase.auth().currentUser
   getUserReposAndWebhooksAsObject(token)
   .then(repos => firebase.firestore().collection('repos').doc(user.uid).set(repos))
+  getUserOrganisationsAsObject(token)
+  .then(orgs => firebase.firestore().collection('organizations').doc(user.uid).set(orgs))
 }
 
 export const updateDatabaseWithGithubDataByToken = async (token) => {
   let user = await firebase.auth().currentUser
   getUserReposAndWebhooksAsObject(token)
-  .then((repos) => {
-    firebase.firestore().collection('repos').doc(user.uid).update(repos)
-  })
+  .then((repos) => firebase.firestore().collection('repos').doc(user.uid).update(repos))
+  getUserOrganisationsAsObject(token)
+  .then(orgs => firebase.firestore().collection('organizations').doc(user.uid).update(orgs))
 }
 
 export const putTokenToDatabase = async (token) => {
@@ -43,6 +45,12 @@ export const setUserToDb = async (githubUserId, githubUserName) => {
 export const onRepos = (cb) => {
   let user = firebase.auth().currentUser
   firebase.firestore().collection('repos').doc(user.uid)
+      .onSnapshot(doc => cb(doc))
+}
+
+export const onOrgs = (cb) => {
+  let user = firebase.auth().currentUser
+  firebase.firestore().collection('organizations').doc(user.uid)
       .onSnapshot(doc => cb(doc))
 }
 

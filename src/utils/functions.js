@@ -1,20 +1,6 @@
 import {updateRepoToDatabase, setUserToDb} from './firebase/database'
 import { getUserId } from './firebase/utils'
-import {webhookUrl, getUserRepo, getUserRepos, getWebhooks, createWebhook, deleteWebhook, getUser, getUserOrganisations} from './github/api'
-
-// export const getUserReposAndWebhooksAsObject = async (token) => {
-//   let userRepos = await getUserRepos(token)
-//   let obj = {}
-//   let webhooks = await Promise.all(userRepos.map(element => getGithubWebhooks(element, token)))
-
-//   userRepos.map((element, i) => {
-//     element.webhooks = webhooks[i]
-//     console.log(element.webhooks)
-//     obj[element.id] = element
-//     return true
-//   })
-//   return obj
-// }
+import {webhookUrl, getUserRepo, getUserRepos, getWebhooks, createWebhook, deleteWebhook, getUser, getUserOrganisations, githubGetRequest} from './github/api'
 
 export const userWebhookUrl = () => {
   let userId = getUserId()
@@ -57,6 +43,17 @@ export const getUserReposAndWebhooksAsObject = async (token) => {
   for (let i = 0; i < userRepos.length; i++) {
     userRepos[i].webhooks = await getGithubWebhooks(userRepos[i], token)
     obj[userRepos[i].id] = userRepos[i]
+  }
+  return obj
+}
+
+export const getUserOrganisationsAsObject = async (token) => {
+  let orgs = await getUserOrganisations(token)
+  let obj = {}
+
+  for (let i = 0; i < orgs.length; i++) {
+    orgs[i].members = await getOrganisationMembers(orgs[i].url, token)
+    obj[orgs[i].id] = orgs[i]
   }
   return obj
 }
@@ -131,9 +128,14 @@ const getGithubWebhooks = async (repo, token) => {
   return array
 }
 
+const getOrganisationMembers = (url, token) => {
+  return githubGetRequest(url + '/members', token)
+}
+
 export const getGithubOrganisations = async () => {
   let token = getToken()
-  return await getUserOrganisations(token)
+  let orgs = await getUserOrganisations(token)
+  return orgs
 }
 
 export const capitalizeFirstLetter = (string) => {
