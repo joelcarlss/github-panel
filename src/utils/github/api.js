@@ -22,6 +22,17 @@ export const getUserRepos = async (token) => {
   }
 }
 
+export const getUserOrganisations = async (token) => {
+  try {
+    const result = await window.fetch('https://api.github.com/user/orgs', {headers: {Authorization: 'token ' + token}})
+    let data = await result.json()
+    return data
+  } catch (e) {
+    console.log('ERROR')
+    console.log('There was an error fetching the data: ' + e)
+  }
+}
+
 export const getUserRepo = async (token, owner, repoName) => {
   try {
     const result = await window.fetch(`https://api.github.com/repos/${owner}/${repoName}`,

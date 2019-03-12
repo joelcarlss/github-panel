@@ -114,7 +114,6 @@ export const findCorrectHookIdInRepo = (repo) => {
   let hooks = repo.webhooks
   let id
   for (let i = 0; i < hooks.length; i++) {
-    console.log(userWebhookUrl())
     if (hooks[i].config.url === userWebhookUrl()) {
       id = hooks[i].id
     }

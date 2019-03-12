@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import { capitalizeFirstLetter } from '../utils/functions'
 import { withStyles } from '@material-ui/core/styles'
@@ -13,6 +13,7 @@ import MailIcon from '@material-ui/icons/Mail'
 import Switch from '@material-ui/core/Switch'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormGroup from '@material-ui/core/FormGroup'
+import {onNotices} from '../utils/firebase/database'
 
 const styles = {
   list: {
@@ -70,9 +71,13 @@ const SwipeableTemporaryDrawer = (props) => {
     setShowMenu,
     showAdmin,
     setShowAdmin,
-    setShowOrganisations,
-    notices
+    setShowOrganisations
   } = props
+
+  const [notices, setNotices] = useState(false)
+  useEffect(() => {
+    onNotices((doc) => setNotices(doc))
+  }, [])
   return (
     <div>
       <SwipeableDrawer

@@ -23,6 +23,10 @@ const styles = {
   }
 }
 
+const onCardClick = (repo) => {
+  console.log(repo)
+}
+
 const OnIssuesClick = (repo) => {
 
 }
@@ -59,13 +63,14 @@ function RepoCard (props) {
           className={classes.media}
           image={repo.owner.avatar_url}
           title={repo.owner.login}
+          onClick={() => onCardClick(repo)}
         />
         <CardContent>
           <Typography gutterBottom variant='h5' component='h2'>
             {repo.name}
           </Typography>
           <Typography component='p'>
-            Text
+            {`${repo.owner.type}: ${repo.owner.login}`}
           </Typography>
         </CardContent>
       </CardActionArea>
