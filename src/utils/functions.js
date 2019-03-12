@@ -18,7 +18,7 @@ import {webhookUrl, getUserRepo, getUserRepos, getWebhooks, createWebhook, delet
 
 export const userWebhookUrl = () => {
   let userId = getUserId()
-  return `${webhookUrl}/${userId}`
+  return `${webhookUrl}?id=${userId}`
 }
 
 export const saveUserSettings = (settings) => {

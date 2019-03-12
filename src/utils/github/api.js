@@ -48,7 +48,7 @@ export const getWebhooks = async (token, owner, repoName) => {
 export const createWebhook = async (userId, token, repo) => {
   let owner = repo.owner.login
   let repoName = repo.name
-  let url = `${webhookUrl}/${userId}`
+  let url = `${webhookUrl}?id=${userId}`
   let data = {
     name: 'web',
     active: true,

@@ -28,7 +28,7 @@ const showNotices = (notices) => {
     return notices.map((obj, index) => (
       <ListItem button key={index}>
         {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-        <ListItemText primary={capitalizeFirstLetter(obj.action)} secondary={obj.repository.full_name} />
+        <ListItemText primary={capitalizeFirstLetter(obj.title)} secondary={obj.repository.full_name} />
       </ListItem>
             ))
   }

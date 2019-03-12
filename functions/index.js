@@ -44,27 +44,26 @@ exports.populateDb = functions.auth.user().onCreate((user) => {
 
 exports.onWebhook = functions.https.onRequest((req, res) => {
   let hook = JSON.parse(req.body.payload)
-  let id = hook.sender.id
-  // console.log('SenderName' + hook.sender.login)
-  let title = hook.action
+  let id = req.query.id
+  let type = req.headers['x-github-event']
+  let title = `${hook.sender.login} ${hook.action} ${type.substring(0, type.length - 1)}`
   let body = hook.repository.full_name
 
-  admin.firestore().collection('users').where('githubUserId', '==', id)
+  hook.title = title
+  hook.firebaseId = id
+  hook.type = type
+
+  admin.firestore().collection('users').where('userId', '==', id)
   .get()
   .then((querySnapshot) => {
     let messageToken
-    let id
     querySnapshot.forEach((doc) => {
-        // doc.data() is never undefined for query doc snapshots
-      id = doc.data().userId
       messageToken = doc.data().messageToken
     })
-    hook.firebaseId = id
     admin.firestore().collection('notices').add(hook)
     return messageToken
   })
   .then((messageToken) => {
-    console.log(messageToken)
     var message = {
       data: {
         title,
