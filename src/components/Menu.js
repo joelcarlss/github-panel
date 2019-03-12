@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { capitalizeFirstLetter } from '../utils/functions'
 import { withStyles } from '@material-ui/core/styles'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import List from '@material-ui/core/List'
@@ -28,7 +29,7 @@ const showNotices = (notices) => {
     return notices.map((obj, index) => (
       <ListItem button key={index}>
         {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-        <ListItemText primary={obj.action} />
+        <ListItemText primary={capitalizeFirstLetter(obj.action)} secondary={obj.repository.full_name} />
       </ListItem>
             ))
   }
