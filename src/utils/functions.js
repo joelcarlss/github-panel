@@ -1,4 +1,5 @@
 import {updateRepoToDatabase, setUserToDb} from './firebase/database'
+import { getUserId } from './firebase/utils'
 import {webhookUrl, getUserRepo, getUserRepos, getWebhooks, createWebhook, deleteWebhook, getUser} from './github/api'
 
 // export const getUserReposAndWebhooksAsObject = async (token) => {
@@ -14,6 +15,11 @@ import {webhookUrl, getUserRepo, getUserRepos, getWebhooks, createWebhook, delet
 //   })
 //   return obj
 // }
+
+export const userWebhookUrl = () => {
+  let userId = getUserId()
+  return `${webhookUrl}/${userId}`
+}
 
 export const saveUserSettings = (settings) => {
   let admin = settings.showAdmin || false
@@ -57,7 +63,8 @@ export const getUserReposAndWebhooksAsObject = async (token) => {
 
 export const createWebhookAndUpdateRepo = async (repo) => {
   let token = getGithubToken()
-  await createWebhook(token, repo)
+  let userId = getUserId()
+  await createWebhook(userId, token, repo)
   let owner = repo.owner.login
   let repoName = repo.name
   updateRepo(owner, repoName)
@@ -81,7 +88,7 @@ export const deleteWebhookAndUpdateRepo = (repo) => {
 
 export const spliceWebhookAndUpdateRepo = (repo) => {
   repo.webhooks.forEach((element, i) => {
-    if (element.config.url === webhookUrl) {
+    if (element.config.url === userWebhookUrl()) {
       repo.webhooks.splice(i)
     }
   })
@@ -107,7 +114,8 @@ export const findCorrectHookIdInRepo = (repo) => {
   let hooks = repo.webhooks
   let id
   for (let i = 0; i < hooks.length; i++) {
-    if (hooks[i].config.url === webhookUrl) {
+    console.log(userWebhookUrl())
+    if (hooks[i].config.url === userWebhookUrl()) {
       id = hooks[i].id
     }
   }
@@ -125,5 +133,7 @@ const getGithubWebhooks = async (repo, token) => {
 }
 
 export const capitalizeFirstLetter = (string) => {
-  return string.charAt(0).toUpperCase() + string.slice(1)
+  if (typeof string === 'string') {
+    return string.charAt(0).toUpperCase() + string.slice(1)
+  }
 }

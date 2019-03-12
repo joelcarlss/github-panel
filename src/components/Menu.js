@@ -24,7 +24,6 @@ const styles = {
 }
 
 const showNotices = (notices) => {
-  console.log(notices)
   if (notices) {
     return notices.map((obj, index) => (
       <ListItem button key={index}>

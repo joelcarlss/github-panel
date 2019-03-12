@@ -69,3 +69,16 @@ export const getNotices = (cb) => {
     cb(arr)
   })
 }
+
+export const getUserData = () => {
+  let user = firebase.auth().currentUser
+  return firebase.firestore().collection('users').where('userId', '==', user.uid)
+  .get()
+  .then((doc) => {
+    let user = []
+    doc.forEach(element => {
+      user = element.data()
+    })
+    return user
+  })
+}
