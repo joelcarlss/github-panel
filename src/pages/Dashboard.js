@@ -1,6 +1,7 @@
 import React, {useEffect, useState} from 'react'
 import Navbar from '../components/Navbar'
 import Repos from '../components/Repos'
+import Organizations from '../components/Organisations'
 import Menu from '../components/Menu'
 import { logOut } from '../utils/firebase/login'
 import { getToken, getUserSettings, saveUserSettings } from '../utils/functions'
@@ -38,7 +39,7 @@ const Dashboard = () => {
         showAdmin={showAdmin} setShowAdmin={() => toggleShowAdmin(showAdmin, setShowAdmin)}
         setShowOrganisations={setShowOrganisations} />
       <Navbar onLogoutClick={() => onLogoutClick()} onMenuClick={() => setShowMenu(true)} />
-      <Repos repositories={repos} showAdmin={showAdmin} showOrganisations={showOrganisations} />
+      {showOrganisations ? <Repos repositories={repos} showAdmin={showAdmin} /> : <Organizations />}
     </div>
   )
 }

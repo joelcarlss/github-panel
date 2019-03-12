@@ -53,7 +53,7 @@ const sideList = (classes, showAdmin, setShowAdmin, setShowOrganisations, notice
       <ListItem button key={'Repositories'} onClick={() => setShowOrganisations(false)}>
         <ListItemText primary={'Repositories'} />
       </ListItem>
-      <ListItem button key={'Organisations'} onClick={() => setShowOrganisations(false)}>
+      <ListItem button key={'Organisations'} onClick={() => setShowOrganisations(true)}>
         <ListItemText primary={'Organisations'} />
       </ListItem>
     </List>

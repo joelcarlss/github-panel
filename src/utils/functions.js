@@ -1,6 +1,6 @@
 import {updateRepoToDatabase, setUserToDb} from './firebase/database'
 import { getUserId } from './firebase/utils'
-import {webhookUrl, getUserRepo, getUserRepos, getWebhooks, createWebhook, deleteWebhook, getUser} from './github/api'
+import {webhookUrl, getUserRepo, getUserRepos, getWebhooks, createWebhook, deleteWebhook, getUser, getUserOrganisations} from './github/api'
 
 // export const getUserReposAndWebhooksAsObject = async (token) => {
 //   let userRepos = await getUserRepos(token)
@@ -129,6 +129,11 @@ const getGithubWebhooks = async (repo, token) => {
     array = await getWebhooks(token, owner, repoName)
   }
   return array
+}
+
+export const getGithubOrganisations = async () => {
+  let token = getToken()
+  return await getUserOrganisations(token)
 }
 
 export const capitalizeFirstLetter = (string) => {
