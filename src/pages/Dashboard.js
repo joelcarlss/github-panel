@@ -23,6 +23,7 @@ const Dashboard = () => {
   const [showMenu, setShowMenu] = useState(false)
   const [showAdmin, setShowAdmin] = useState(settings.showAdmin)
   const [showOrganisations, setShowOrganisations] = useState(settings.showOrganisations)
+  const [orgIdToShow, setOrgIdToShow] = useState(false)
   saveUserSettings({showAdmin, showOrganisations})
   useEffect(() => {
     try {
@@ -39,9 +40,9 @@ const Dashboard = () => {
     <div>
       <Menu showMenu={showMenu} setShowMenu={setShowMenu}
         showAdmin={showAdmin} setShowAdmin={() => toggleShowAdmin(showAdmin, setShowAdmin)}
-        setShowOrganisations={setShowOrganisations} />
+        setShowOrganisations={setShowOrganisations} setOrgIdToShow={setOrgIdToShow} />
       <Navbar onLogoutClick={() => onLogoutClick()} onMenuClick={() => setShowMenu(true)} />
-      {showOrganisations ? <Organizations orgs={orgs} showAdmin={showAdmin} /> : <Repos repositories={repos} showAdmin={showAdmin} />}
+      {showOrganisations ? <Organizations orgs={orgs} showAdmin={showAdmin} setOrgIdToShow={setOrgIdToShow} setShowOrganisations={setShowOrganisations} /> : <Repos repositories={repos} showAdmin={showAdmin} />}
     </div>
   )
 }

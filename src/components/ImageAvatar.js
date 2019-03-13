@@ -21,9 +21,7 @@ const styles = {
 function ImageAvatar (props) {
   const { classes, alt, src } = props
   return (
-    <Grid>
-      <Avatar alt={alt} src={src} className={classes.avatar} />
-    </Grid>
+    <Avatar alt={alt} src={src} className={classes.avatar} />
   )
 }
 

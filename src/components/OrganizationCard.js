@@ -24,32 +24,31 @@ const styles = {
   }
 }
 
-const onCardClick = (org) => {
-  console.log(org)
-}
-
 const showMembers = (members) => {
   if (members) {
     let list = members.splice(9, members.length) // Write out number of more after pictures
-    console.log(list.length)
-    return members.map((item, i) => (
+    let avatarList = members.map((item, i) => (
       <ImageAvatar key={i} alt={item.login} src={item.avatar_url} />
     ))
+    if (list.length > 0) {
+      avatarList.push(<p>+{list.length}</p>)
+    }
+    return avatarList
   }
 }
 
 function OrganizationsCard (props) {
-  const { classes, org } = props
+  const { classes, org, onCardClick } = props
   console.log(org)
   return (
     <Card className={classes.card} style={{width: '32%', margin: '0.2%'}}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
-          image={org.avatar_url}
           title={org.login}
-          onClick={() => onCardClick(org)}
-        />
+          onClick={onCardClick}
+          image={org.avatar_url}
+          />
         <CardContent>
           <Typography gutterBottom variant='h5' component='h2'>
             {org.login}

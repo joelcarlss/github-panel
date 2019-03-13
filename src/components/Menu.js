@@ -35,7 +35,12 @@ const showNotices = (notices) => {
   }
 }
 
-const sideList = (classes, showAdmin, setShowAdmin, setShowOrganisations, notices) => (
+const onReposClick = (setShowOrganisations, setOrgIdToShow) => {
+  setShowOrganisations(false)
+  setOrgIdToShow(false)
+}
+
+const sideList = (classes, showAdmin, setShowAdmin, setShowOrganisations, setOrgIdToShow, notices) => (
   <div className={classes.list}>
     <List>
       <ListItem button key={'Repositories'}>
@@ -50,7 +55,7 @@ const sideList = (classes, showAdmin, setShowAdmin, setShowOrganisations, notice
       </ListItem>
     </List>
     <List>
-      <ListItem button key={'Repositories'} onClick={() => setShowOrganisations(false)}>
+      <ListItem button key={'Repositories'} onClick={() => onReposClick(setShowOrganisations, setOrgIdToShow)}>
         <ListItemText primary={'Repositories'} />
       </ListItem>
       <ListItem button key={'Organisations'} onClick={() => setShowOrganisations(true)}>
@@ -71,7 +76,8 @@ const SwipeableTemporaryDrawer = (props) => {
     setShowMenu,
     showAdmin,
     setShowAdmin,
-    setShowOrganisations
+    setShowOrganisations,
+    setOrgIdToShow
   } = props
 
   const [notices, setNotices] = useState(false)
@@ -91,7 +97,7 @@ const SwipeableTemporaryDrawer = (props) => {
           onClick={() => setShowMenu(false)}
           onKeyDown={() => setShowMenu(false)}
           >
-          {sideList(classes, showAdmin, setShowAdmin, setShowOrganisations, notices)}
+          {sideList(classes, showAdmin, setShowAdmin, setShowOrganisations, setOrgIdToShow, notices)}
         </div>
       </SwipeableDrawer>
     </div>
