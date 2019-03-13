@@ -2,7 +2,7 @@ import React from 'react'
 import OrganizationCard from './OrganizationCard'
 
 const Organizations = (props) => {
-  const { orgs, setOrgIdToShow, setShowOrganisations } = props
+  const { orgs, setOrgToShow, setShowOrganisations } = props
 
   const showOrganizations = () => {
     let arr = []
@@ -21,12 +21,12 @@ const Organizations = (props) => {
 
   const showRepo = (org) => {
     return (
-      <OrganizationCard key={org.id} org={org} onCardClick={() => onCardClick(org.id)} />
+      <OrganizationCard key={org.id} org={org} onCardClick={() => onCardClick(org.login)} />
     )
   }
 
-  const onCardClick = (id) => {
-    setOrgIdToShow(id)
+  const onCardClick = (name) => {
+    setOrgToShow(name)
     setShowOrganisations(false)
   }
 

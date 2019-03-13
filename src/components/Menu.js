@@ -6,10 +6,7 @@ import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
 import List from '@material-ui/core/List'
 import Divider from '@material-ui/core/Divider'
 import ListItem from '@material-ui/core/ListItem'
-import ListItemIcon from '@material-ui/core/ListItemIcon'
 import ListItemText from '@material-ui/core/ListItemText'
-import InboxIcon from '@material-ui/icons/MoveToInbox'
-import MailIcon from '@material-ui/icons/Mail'
 import Switch from '@material-ui/core/Switch'
 import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormGroup from '@material-ui/core/FormGroup'
@@ -24,51 +21,6 @@ const styles = {
   }
 }
 
-const showNotices = (notices) => {
-  if (notices) {
-    return notices.map((obj, index) => (
-      <ListItem button key={index}>
-        {/* <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon> */}
-        <ListItemText primary={capitalizeFirstLetter(obj.title)} secondary={obj.repository.full_name} />
-      </ListItem>
-            ))
-  }
-}
-
-const onReposClick = (setShowOrganisations, setOrgIdToShow) => {
-  setShowOrganisations(false)
-  setOrgIdToShow(false)
-}
-
-const sideList = (classes, showAdmin, setShowAdmin, setShowOrganisations, setOrgIdToShow, notices) => (
-  <div className={classes.list}>
-    <List>
-      <ListItem button key={'Repositories'}>
-        <FormGroup>
-          <FormControlLabel
-            control={
-              <Switch checked={showAdmin} onChange={setShowAdmin} aria-label='LoginSwitch' />
-            }
-            label={showAdmin ? 'All Repos' : 'Admin Repos'}
-          />
-        </FormGroup>
-      </ListItem>
-    </List>
-    <List>
-      <ListItem button key={'Repositories'} onClick={() => onReposClick(setShowOrganisations, setOrgIdToShow)}>
-        <ListItemText primary={'Repositories'} />
-      </ListItem>
-      <ListItem button key={'Organisations'} onClick={() => setShowOrganisations(true)}>
-        <ListItemText primary={'Organisations'} />
-      </ListItem>
-    </List>
-    <Divider />
-    <List>
-      {showNotices(notices)}
-    </List>
-  </div>
-        )
-
 const SwipeableTemporaryDrawer = (props) => {
   const {
     classes,
@@ -81,9 +33,54 @@ const SwipeableTemporaryDrawer = (props) => {
   } = props
 
   const [notices, setNotices] = useState(false)
+
   useEffect(() => {
     onNotices((doc) => setNotices(doc))
   }, [])
+
+  const showNotices = (notices) => {
+    if (notices) {
+      return notices.map((obj, index) => (
+        <ListItem button key={index}>
+          <ListItemText primary={capitalizeFirstLetter(obj.title)} secondary={obj.repository.full_name} />
+        </ListItem>
+              ))
+    }
+  }
+
+  const onReposClick = () => {
+    setShowOrganisations(false)
+    setOrgIdToShow(false)
+  }
+
+  const sideList = () => (
+    <div className={classes.list}>
+      <List>
+        <ListItem button key={'Repositories'}>
+          <FormGroup>
+            <FormControlLabel
+              control={
+                <Switch checked={showAdmin} onChange={setShowAdmin} aria-label='LoginSwitch' />
+              }
+              label={showAdmin ? 'All Repos' : 'Admin Repos'}
+            />
+          </FormGroup>
+        </ListItem>
+      </List>
+      <List>
+        <ListItem button key={'Repositories'} onClick={() => onReposClick()}>
+          <ListItemText primary={'Repositories'} />
+        </ListItem>
+        <ListItem button key={'Organisations'} onClick={() => setShowOrganisations(true)}>
+          <ListItemText primary={'Organisations'} />
+        </ListItem>
+      </List>
+      <Divider />
+      <List>
+        {showNotices(notices)}
+      </List>
+    </div>
+          )
   return (
     <div>
       <SwipeableDrawer
@@ -97,7 +94,7 @@ const SwipeableTemporaryDrawer = (props) => {
           onClick={() => setShowMenu(false)}
           onKeyDown={() => setShowMenu(false)}
           >
-          {sideList(classes, showAdmin, setShowAdmin, setShowOrganisations, setOrgIdToShow, notices)}
+          {sideList()}
         </div>
       </SwipeableDrawer>
     </div>

@@ -31,7 +31,7 @@ const showMembers = (members) => {
       <ImageAvatar key={i} alt={item.login} src={item.avatar_url} />
     ))
     if (list.length > 0) {
-      avatarList.push(<p>+{list.length}</p>)
+      avatarList.push(<p key={avatarList.length}>+{list.length}</p>)
     }
     return avatarList
   }
@@ -39,25 +39,21 @@ const showMembers = (members) => {
 
 function OrganizationsCard (props) {
   const { classes, org, onCardClick } = props
-  console.log(org)
   return (
-    <Card className={classes.card} style={{width: '32%', margin: '0.2%'}}>
+    <Card className={classes.card} onClick={onCardClick} style={{width: '32%', margin: '0.2%'}}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
           title={org.login}
-          onClick={onCardClick}
           image={org.avatar_url}
           />
         <CardContent>
           <Typography gutterBottom variant='h5' component='h2'>
             {org.login}
           </Typography>
-          <Typography component='p'>
-            <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'left'}}>
-              {showMembers(org.members)}
-            </div>
-          </Typography>
+          <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'left'}}>
+            {showMembers(org.members)}
+          </div>
         </CardContent>
       </CardActionArea>
     </Card>

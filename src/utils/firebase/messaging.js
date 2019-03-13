@@ -12,7 +12,6 @@ export const requestPermission = () => {
     return messaging.getToken()
   })
   .then((token) => {
-    console.log(token)
     setMessageTokenToUser(token)
   })
   .catch(function (err) {

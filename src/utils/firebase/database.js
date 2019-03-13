@@ -68,7 +68,7 @@ export const setMessageTokenToUser = async (messageToken) => {
 
 export const onNotices = (cb) => {
   let user = firebase.auth().currentUser
-  firebase.firestore().collection('notices').where('firebaseId', '==', user.uid)
+  firebase.firestore().collection('notices').where('firebaseId', '==', user.uid).limit(7)
   .onSnapshot(data => {
     let arr = []
     data.forEach(element => {
