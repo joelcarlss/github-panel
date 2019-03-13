@@ -31,9 +31,9 @@ messaging.onTokenRefresh(() => {
   })
 })
 
-messaging.onMessage((payload) => {
-  console.log('Onmessage ' + payload)
-})
+export const onMessage = (cb) => {
+  messaging.onMessage(payload => cb(payload))
+}
 // messaging.getToken().then(function (currentToken) {
 //   if (currentToken) {
 //     sendTokenToServer(currentToken)

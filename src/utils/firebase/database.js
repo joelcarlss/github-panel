@@ -60,12 +60,6 @@ export const onToken = (cb) => {
         .onSnapshot(doc => cb(doc))
 }
 
-export const setMessageTokenToUser = async (messageToken) => {
-  let user = await firebase.auth().currentUser
-  firebase.firestore().collection('users').doc(user.uid).set({messageToken}, {merge: true})
-  .then(() => console.log)
-}
-
 export const onNotices = (cb) => {
   let user = firebase.auth().currentUser
   firebase.firestore().collection('notices').where('firebaseId', '==', user.uid).limit(7)
@@ -76,6 +70,12 @@ export const onNotices = (cb) => {
     })
     cb(arr)
   })
+}
+
+export const setMessageTokenToUser = async (messageToken) => {
+  let user = await firebase.auth().currentUser
+  firebase.firestore().collection('users').doc(user.uid).set({messageToken}, {merge: true})
+  .then(() => console.log)
 }
 
 export const getUserData = () => {
@@ -89,4 +89,16 @@ export const getUserData = () => {
     })
     return user
   })
+}
+
+export const deleteUserNotices = () => {
+  let user = firebase.auth().currentUser
+  let dbData = firebase.firestore().collection('notices').where('firebaseId', '==', user.uid)
+  dbData.get().then(querySnapshot => {
+    querySnapshot.forEach(doc => {
+      doc.ref.delete()
+    })
+  }
+
+  )
 }
