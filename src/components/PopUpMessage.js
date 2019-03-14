@@ -1,40 +1,45 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import Button from '@material-ui/core/Button';
-import { SnackbarProvider, withSnackbar } from 'notistack';
+import React, {useEffect, useState} from 'react'
+import Button from '@material-ui/core/Button'
+import Snackbar from '@material-ui/core/Snackbar'
+import { onMessage } from '../utils/firebase/messaging'
+import { capitalizeFirstLetter } from '../utils/functions'
 
-class App extends React.Component {
-  handleClick = () => {
-    this.props.enqueueSnackbar('I love snacks.');
-  };
+function PopUpMessage () {
+  const [open, setOpen] = useState(false)
+  const [message, setMessage] = useState(false)
+  let vertical = 'top'
+  let horizontal = 'right'
 
-  handleClickVariant = variant => () => {
-    // variant could be success, error, warning or info
-    this.props.enqueueSnackbar('This is a warning message!', { variant });
-  };
+  useEffect(() => {
+    onMessage((object) => {
+      let message = `${capitalizeFirstLetter(object.data.title)} \n ${object.data.body}`
+      setMessage(message)
+      handleMessage()
+    })
+  }, [])
 
-  render() {
-    return (
-      <React.Fragment>
-        <Button onClick={this.handleClick}>Show snackbar</Button>
-        <Button onClick={this.handleClickVariant('warning')}>Show warning snackbar</Button>
-      </React.Fragment>
-    );
+  const handleMessage = () => {
+    setOpen(true)
   }
-}
 
-App.propTypes = {
-  enqueueSnackbar: PropTypes.func.isRequired,
-};
+  function handleClose () {
+    setOpen(false)
+  }
 
-const MyApp = withSnackbar(App);
-
-function PopUpMessage() {
   return (
-    <SnackbarProvider maxSnack={3}>
-      <MyApp />
-    </SnackbarProvider>
-  );
+    <div>
+      <Snackbar
+        // onChange={} // Handle Change?
+        anchorOrigin={{ vertical, horizontal }}
+        open={open}
+        onClose={handleClose}
+        ContentProps={{
+          'aria-describedby': 'message-id'
+        }}
+        message={<span id='message-id'>{message}</span>}
+      />
+    </div>
+  )
 }
 
-export default PopUpMessage;
+export default PopUpMessage
