@@ -22,7 +22,7 @@ const Dashboard = () => {
   let settings = getUserSettings()
   const [repos, setRepos] = useState(false)
   const [orgs, setOrgs] = useState(false)
-  const [showMenu, setShowMenu] = useState(false)
+  const [showMenu, setShowMenu] = useState(true)
   const [showAdmin, setShowAdmin] = useState(settings.showAdmin)
   const [showOrganisations, setShowOrganisations] = useState(settings.showOrganisations)
   const [orgToShow, setOrgToShow] = useState(false)

@@ -1,3 +1,4 @@
+import moment from 'moment'
 import {updateRepoToDatabase, setUserToDb} from './firebase/database'
 import { getUserId } from './firebase/utils'
 import {webhookUrl, getUserRepo, getUserRepos, getWebhooks, createWebhook, deleteWebhook, getUser, getUserOrganisations, githubGetRequest} from './github/api'
@@ -141,5 +142,14 @@ export const getGithubOrganisations = async () => {
 export const capitalizeFirstLetter = (string) => {
   if (typeof string === 'string') {
     return string.charAt(0).toUpperCase() + string.slice(1)
+  }
+}
+
+export const formatTime = (data) => {
+  let time = moment.unix(data.seconds)
+  if (time) {
+    return time.fromNow()
+  } else {
+    return time.format('YYYY-MM-DD HH:mm')
   }
 }

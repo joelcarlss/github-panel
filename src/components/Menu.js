@@ -12,14 +12,15 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormGroup from '@material-ui/core/FormGroup'
 import Fab from '@material-ui/core/Fab'
 import DeleteIcon from '@material-ui/icons/Delete'
+import Avatar from '@material-ui/core/Avatar'
 
-import { capitalizeFirstLetter } from '../utils/functions'
-import {onNotices, deleteUserNotices} from '../utils/firebase/database'
-import { types } from 'util'
+import { capitalizeFirstLetter, formatTime } from '../utils/functions'
+import { onNotices, deleteUserNotices } from '../utils/firebase/database'
+import { ListItemAvatar, Typography } from '@material-ui/core'
 
 const styles = {
   list: {
-    width: 250
+    width: 320
   },
   fullList: {
     width: 'auto'
@@ -56,7 +57,16 @@ const SwipeableTemporaryDrawer = (props) => {
     if (notices) {
       return notices.map((obj, index) => (
         <ListItem button key={index}>
-          <ListItemText primary={getTitle(obj)} secondary={obj.repository.full_name} />
+          <ListItemAvatar>
+            <Avatar alt={obj.sender.login} src={obj.sender.avatar_url} />
+          </ListItemAvatar>
+          <ListItemText primary={getTitle(obj)} secondary={
+            <React.Fragment>
+              <Typography component='span' className={classes.inline} color='textPrimary'>
+                {obj.repository.full_name}
+              </Typography>
+              {formatTime(obj.time)}
+            </React.Fragment>} />
         </ListItem>
               ))
     }

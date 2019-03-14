@@ -12,7 +12,7 @@ function PopUpMessage () {
 
   useEffect(() => {
     onMessage((object) => {
-      let message = `${capitalizeFirstLetter(object.data.title)} \n ${object.data.body}`
+      let message = `${capitalizeFirstLetter(object.data.title)}: ${object.data.body}`
       setMessage(message)
       handleMessage()
     })
