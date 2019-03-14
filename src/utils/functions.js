@@ -147,9 +147,6 @@ export const capitalizeFirstLetter = (string) => {
 
 export const formatTime = (data) => {
   let time = moment.unix(data.seconds)
-  if (time) {
-    return time.fromNow()
-  } else {
-    return time.format('YYYY-MM-DD HH:mm')
-  }
+  return time.fromNow()
+    // return time.format('YYYY-MM-DD HH:mm')
 }
