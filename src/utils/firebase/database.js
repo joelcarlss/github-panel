@@ -62,7 +62,7 @@ export const onToken = (cb) => {
 
 export const onNotices = (cb) => {
   let user = firebase.auth().currentUser
-  firebase.firestore().collection('notices').where('firebaseId', '==', user.uid).limit(7)
+  firebase.firestore().collection('notices').where('firebaseId', '==', user.uid).limit(7).orderBy('time', 'desc')
   .onSnapshot(data => {
     let arr = []
     data.forEach(element => {

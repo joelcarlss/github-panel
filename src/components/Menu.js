@@ -15,6 +15,7 @@ import DeleteIcon from '@material-ui/icons/Delete'
 
 import { capitalizeFirstLetter } from '../utils/functions'
 import {onNotices, deleteUserNotices} from '../utils/firebase/database'
+import { types } from 'util'
 
 const styles = {
   list: {
@@ -55,10 +56,28 @@ const SwipeableTemporaryDrawer = (props) => {
     if (notices) {
       return notices.map((obj, index) => (
         <ListItem button key={index}>
-          <ListItemText primary={capitalizeFirstLetter(obj.title)} secondary={obj.repository.full_name} />
+          <ListItemText primary={getTitle(obj)} secondary={obj.repository.full_name} />
         </ListItem>
               ))
     }
+  }
+
+  const getTitle = (obj) => {
+    let title
+    let name = capitalizeFirstLetter(obj.sender.login)
+    if (obj.issue) {
+      let action = obj.action
+      let type = obj.type.substring(0, obj.type.length - 1)
+      title = `${name} ${action} an ${type}`
+    } else if (obj.commits) {
+      let type = obj.type
+      let amount = obj.commits.length
+      let commits = (amount === 1) ? 'commit' : 'commits'
+      title = `${name} ${type}ed ${amount} ${commits}` // TODO: make it work for pull and clone
+    } else {
+      title = `New ${obj.type} by ${name}`
+    }
+    return title
   }
 
   const sideList = () => (

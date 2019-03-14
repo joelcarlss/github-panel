@@ -52,6 +52,7 @@ exports.onWebhook = functions.https.onRequest((req, res) => {
   hook.title = title
   hook.firebaseId = id
   hook.type = type
+  hook.time = new Date()
 
   admin.firestore().collection('users').where('userId', '==', id)
   .get()
