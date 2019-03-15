@@ -1,5 +1,4 @@
 import React, {useEffect, useState} from 'react'
-import Button from '@material-ui/core/Button'
 import Snackbar from '@material-ui/core/Snackbar'
 import { onMessage } from '../utils/firebase/messaging'
 import { capitalizeFirstLetter } from '../utils/functions'
@@ -12,13 +11,13 @@ function PopUpMessage () {
 
   useEffect(() => {
     onMessage((object) => {
-      let message = `${capitalizeFirstLetter(object.data.title)}: ${object.data.body}`
-      setMessage(message)
-      handleMessage()
+      handleMessage(object)
     })
   }, [])
 
-  const handleMessage = () => {
+  const handleMessage = (object) => {
+    let message = `${capitalizeFirstLetter(object.data.title)}: ${object.data.body}`
+    setMessage(message)
     setOpen(true)
   }
 
@@ -29,7 +28,6 @@ function PopUpMessage () {
   return (
     <div>
       <Snackbar
-        // onChange={} // Handle Change?
         anchorOrigin={{ vertical, horizontal }}
         open={open}
         onClose={handleClose}

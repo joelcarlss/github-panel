@@ -9,7 +9,7 @@ class Router extends Component {
   render () {
     return (
       <BrowserRouter>
-        <div className='container' style={{display: 'block', width: '100%', height: '100%'}}>
+        <div>
           <Route exact path='/' component={App} />
           <Route exact path='/login' component={LoginPage} />
           <Route exact path='/dashboard' component={Dashboard} />

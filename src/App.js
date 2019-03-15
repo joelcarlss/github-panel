@@ -1,4 +1,4 @@
-import './App.css'
+// import './App.css'
 import React, { useState } from 'react'
 // import {Redirect} from 'react-router-dom'
 import firebase from './utils/firebase/config'
@@ -15,11 +15,7 @@ const renderPage = () => {
 }
 
 function App () { // Remove css
-  return (
-    <div className='container' style={{display: 'block', width: '100%', height: '100%'}}>
-      {renderPage()}
-    </div>
-  )
+  return renderPage()
 }
 
 export default App

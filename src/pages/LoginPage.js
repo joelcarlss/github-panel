@@ -1,33 +1,37 @@
-import React, { Component } from 'react'
-// import {Input} from '@material-ui/core'
-import Login from '../components/Login'
-import { loginUserToGithub } from '../utils/firebase/login'
-import { Button } from '@material-ui/core'
+import React from 'react'
 
-class LoginPage extends Component {
-  constructor (props) {
-    super(props)
-    this.state = {username: ''}
-  }
-  onLoginClick () {
+import { loginUserToGithub } from '../utils/firebase/login'
+import { withStyles } from '@material-ui/core/styles'
+// import '../login.css'
+
+import LoginButton from '../components/LoginButton'
+
+// const styles = {
+//   button: {
+//     textAlign: 'center',
+//     alignItems: 'center',
+//     justifyContent: 'center'
+//   },
+//   wrapper: {
+//     textAlign: 'center',
+//     alignItems: 'center',
+//     justifyContent: 'center',
+//     width: '100%',
+//     height: '100%',
+//     marginTop: '20%'
+//     // backgroundColor: 'black'
+//   }
+
+// }
+
+const LoginPage = (props) => {
+  const { classes } = props
+  const onLoginClick = () => {
     loginUserToGithub()
   }
-  render () {
-    return (
-      <div className='Login' style={{
-        position: 'absolute',
-        textAlign: 'center',
-        margin: 'auto',
-        width: '50%',
-        height: '50%'}} >
-        <Login onLoginClick={() => this.onLoginClick()}
-          onUsernameChange={(event) => this.setState({username: event.target.value})} usernameValue={this.state.username}
-          onPasswordChange={(event) => this.setState({password: event.target.value})} passwordValue={this.state.password}
-        />
-        <Button onClick={() => this.onLoginClick()}>hej</Button>
-      </div>
-    )
-  }
+  return (
+    <LoginButton onClick={() => onLoginClick()} className={classes.button} />
+  )
 }
 
-export default LoginPage
+export default withStyles()(LoginPage)
