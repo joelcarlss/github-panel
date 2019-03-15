@@ -9,13 +9,14 @@ exports.onWebhook = functions.https.onRequest((req, res) => {
   let hook = JSON.parse(req.body.payload)
   let id = req.query.id
   let type = req.headers['x-github-event']
-  let title = `${hook.sender.login} ${hook.action} ${type.substring(0, type.length - 1)}`
   let body = hook.repository.full_name
 
-  hook.title = title
   hook.firebaseId = id
   hook.type = type
   hook.time = new Date()
+  hook.title = getTitle(hook)
+
+  const {title} = hook
 
   admin.firestore().collection('users').where('userId', '==', id)
   .get()
@@ -45,3 +46,27 @@ exports.onWebhook = functions.https.onRequest((req, res) => {
   .catch(() => console.log)
   res.send(200)
 })
+
+const getTitle = (obj) => {
+  let title
+  let name = capitalizeFirstLetter(obj.sender.login)
+  if (obj.issue) {
+    let action = obj.action
+    let type = obj.type.substring(0, obj.type.length - 1)
+    title = `${name} ${action} an ${type}`
+  } else if (obj.commits) {
+    let type = obj.type
+    let amount = obj.commits.length
+    let commits = (amount === 1) ? 'commit' : 'commits'
+    title = `${name} ${type}ed ${amount} ${commits}` // TODO: make it work for pull and clone
+  } else {
+    title = `New ${obj.type} by ${name}`
+  }
+  return title
+}
+
+const capitalizeFirstLetter = (string) => {
+  if (typeof string === 'string') {
+    return string.charAt(0).toUpperCase() + string.slice(1)
+  }
+}

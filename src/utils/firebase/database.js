@@ -72,6 +72,16 @@ export const onNotices = (cb) => {
   })
 }
 
+export const setNoticesToRead = (cb) => {
+  let user = firebase.auth().currentUser
+  firebase.firestore().collection('notices').where('firebaseId', '==', user.uid)
+  .onSnapshot(data => {
+    data.forEach(element => {
+      element.ref.update({read: true})
+    })
+  })
+}
+
 export const setMessageTokenToUser = async (messageToken) => {
   let user = await firebase.auth().currentUser
   firebase.firestore().collection('users').doc(user.uid).set({messageToken}, {merge: true})

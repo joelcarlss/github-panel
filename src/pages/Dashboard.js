@@ -6,9 +6,10 @@ import Menu from '../components/Menu'
 import { logOut } from '../utils/firebase/login'
 import { getToken, getUserSettings, saveUserSettings } from '../utils/functions'
 import { requestPermission } from '../utils/firebase/messaging'
-import {updateDatabaseWithGithubDataByToken, onRepos, onOrgs} from '../utils/firebase/database'
+import {updateDatabaseWithGithubDataByToken, setNoticesToRead, onRepos, onOrgs} from '../utils/firebase/database'
 import { Chip } from '@material-ui/core'
 import PopUpMessage from '../components/PopUpMessage'
+import { register } from '../serviceWorker'
 
 const onLogoutClick = () => {
   logOut()
@@ -22,10 +23,17 @@ const Dashboard = () => {
   let settings = getUserSettings()
   const [repos, setRepos] = useState(false)
   const [orgs, setOrgs] = useState(false)
-  const [showMenu, setShowMenu] = useState(false)
+  const [showMenu, setShowMenu] = useState(null)
   const [showAdmin, setShowAdmin] = useState(settings.showAdmin)
   const [showOrganisations, setShowOrganisations] = useState(settings.showOrganisations)
   const [orgToShow, setOrgToShow] = useState(false)
+
+  const onMenuClose = () => {
+    if (showMenu === false) {
+      console.log('Register Closed')
+      setNoticesToRead()
+    }
+  }
 
   saveUserSettings({showAdmin, showOrganisations})
   useEffect(() => {
@@ -40,6 +48,7 @@ const Dashboard = () => {
       console.log(e) // TODO: Show data from API instead?
     }
   }, [])
+  onMenuClose()
   return (
     <div>
       <PopUpMessage />
