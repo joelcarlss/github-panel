@@ -56,7 +56,7 @@ const SwipeableTemporaryDrawer = (props) => {
   const showNotices = (notices) => {
     if (notices) {
       return notices.map((obj, index) => (
-        <ListItem button key={index}>
+        <ListItem button key={index} disabled={(obj.read)}>
           <ListItemAvatar>
             <Avatar alt={obj.sender.login} src={obj.sender.avatar_url} />
           </ListItemAvatar>
@@ -141,7 +141,7 @@ const SwipeableTemporaryDrawer = (props) => {
   return (
     <div>
       <SwipeableDrawer
-        open={showMenu}
+        open={showMenu || false}
         onClose={() => setShowMenu(false)}
         onOpen={() => setShowMenu(true)}
         >

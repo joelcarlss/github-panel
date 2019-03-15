@@ -6,23 +6,23 @@ import { withStyles } from '@material-ui/core/styles'
 
 import LoginButton from '../components/LoginButton'
 
-// const styles = {
-//   button: {
-//     textAlign: 'center',
-//     alignItems: 'center',
-//     justifyContent: 'center'
-//   },
-//   wrapper: {
-//     textAlign: 'center',
-//     alignItems: 'center',
-//     justifyContent: 'center',
-//     width: '100%',
-//     height: '100%',
-//     marginTop: '20%'
-//     // backgroundColor: 'black'
-//   }
+const styles = {
+  button: {
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  wrapper: {
+    textAlign: 'center',
+    alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
+    height: '100%',
+    marginTop: '20%'
+    // backgroundColor: 'black'
+  }
 
-// }
+}
 
 const LoginPage = (props) => {
   const { classes } = props
@@ -34,4 +34,4 @@ const LoginPage = (props) => {
   )
 }
 
-export default withStyles()(LoginPage)
+export default withStyles(styles)(LoginPage)

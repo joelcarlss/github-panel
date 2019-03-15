@@ -9,7 +9,6 @@ import { requestPermission } from '../utils/firebase/messaging'
 import {updateDatabaseWithGithubDataByToken, setNoticesToRead, onRepos, onOrgs} from '../utils/firebase/database'
 import { Chip } from '@material-ui/core'
 import PopUpMessage from '../components/PopUpMessage'
-import { register } from '../serviceWorker'
 
 const onLogoutClick = () => {
   logOut()
