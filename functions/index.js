@@ -58,7 +58,7 @@ const getTitle = (obj) => {
     let type = obj.type
     let amount = obj.commits.length
     let commits = (amount === 1) ? 'commit' : 'commits'
-    title = `${name} ${type}ed ${amount} ${commits}` // TODO: make it work for pull and clone
+    title = `${name} ${type}ed ${amount} ${commits}`
   } else {
     title = `New ${obj.type} by ${name}`
   }

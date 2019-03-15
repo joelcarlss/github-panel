@@ -29,7 +29,6 @@ const Dashboard = () => {
 
   const onMenuClose = () => {
     if (showMenu === false) {
-      console.log('Register Closed')
       setNoticesToRead()
     }
   }
@@ -48,6 +47,7 @@ const Dashboard = () => {
     }
   }, [])
   onMenuClose()
+
   return (
     <div>
       <PopUpMessage />

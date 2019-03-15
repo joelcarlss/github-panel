@@ -72,6 +72,20 @@ export const onNotices = (cb) => {
   })
 }
 
+export const onNoticeCount = (cb) => {
+  let user = firebase.auth().currentUser
+  firebase.firestore().collection('notices').where('firebaseId', '==', user.uid)
+  .onSnapshot(data => {
+    let number = 0
+    data.forEach(element => {
+      if (!element.data().read) {
+        number++
+      }
+    })
+    cb(number)
+  })
+}
+
 export const setNoticesToRead = (cb) => {
   let user = firebase.auth().currentUser
   firebase.firestore().collection('notices').where('firebaseId', '==', user.uid)
