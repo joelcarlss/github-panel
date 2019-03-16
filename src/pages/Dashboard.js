@@ -23,7 +23,6 @@ const Dashboard = () => {
   const [repos, setRepos] = useState(false)
   const [orgs, setOrgs] = useState(false)
   const [showMenu, setShowMenu] = useState(null)
-  const [orgToShow, setOrgToShow] = useState(false)
 
   useEffect(() => {
     try {
@@ -53,11 +52,10 @@ const Dashboard = () => {
             showAdmin={showOnlyAdmin} setShowAdmin={() => toggleShowAdmin(showOnlyAdmin, setShowOnlyAdmin)} />
 
           <Navbar onLogoutClick={() => onLogoutClick()} onMenuClick={() => setShowMenu(true)} />
-          {orgToShow ? <Chip label={orgToShow} onDelete={() => setOrgToShow(false)} /> : null}
 
           <Route exact path='/' render={() => <Repos repositories={repos} showAdmin={showOnlyAdmin} />} />
           <Route exact path='/orgs' render={() => <Organizations orgs={orgs} showAdmin={showOnlyAdmin} />} />
-          <Route exact path='/repos/:org' render={({match}) => <Repos repositories={repos} showAdmin={showOnlyAdmin} orgToShow={match.params.org} />} />
+          <Route exact path='/orgs/:org' render={({match}) => <Repos repositories={repos} showAdmin={showOnlyAdmin} orgToShow={match.params.org} />} />
           <Route exact path='/statistics/:id' component={Statistics} />
         </div>
       </BrowserRouter>

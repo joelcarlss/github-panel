@@ -1,61 +1,30 @@
 import React from 'react'
+import { withRouter } from 'react-router-dom'
+
+import { Chip } from '@material-ui/core'
+
 import RepoCard from './RepoCard'
 
 const Repos = (props) => {
-  const { repositories, showAdmin, orgToShow } = props
-
-  const showList = () => {
-    return showRepoList(repositories, showAdmin)
+  const { repositories, showAdmin, orgToShow, history } = props
+  if (!repositories) {
+    return null
   }
 
-  const showRepoList = (repos, showAdmin) => {
-    let arr = []
-    if (repos) {
-      if (showAdmin) {
-        arr = iterateAdminRepos(repos)
-      } else {
-        arr = iterateRepos(repos)
-      }
-    }
-    return arr
+  let repos = Object.values(repositories)
+  if (showAdmin) {
+    repos = repos.filter(repo => repo.permissions.admin)
   }
-  const iterateRepos = (repos) => {
-    let arr = []
-    for (let key in repos) {
-      arr.push(showRepo(repos[key]))
-    }
-    return arr
-  }
-
-  const iterateAdminRepos = (repos) => {
-    let arr = []
-    for (let key in repos) {
-      if (repos[key].permissions.admin) {
-        arr.push(showRepo(repos[key]))
-      }
-    }
-    return arr
-  }
-
-  const showRepo = (repo) => {
-    if (orgToShow) {
-      if (orgToShow === repo.owner.login) {
-        return (
-          <RepoCard key={repo.id} repo={repo} />
-        )
-      }
-    } else {
-      return (
-        <RepoCard key={repo.id} repo={repo} />
-      )
-    }
+  if (orgToShow) {
+    repos = repos.filter(repo => orgToShow === repo.owner.login)
   }
 
   return (
     <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
-      {showList()}
+      {orgToShow ? <Chip label={orgToShow} onDelete={() => history.push('/orgs')} /> : null}
+      {repos.map(repo => <RepoCard key={repo.id} repo={repo} />)}
     </div>
   )
 }
 
-export default Repos
+export default withRouter(Repos)

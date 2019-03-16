@@ -43,7 +43,7 @@ function OrganizationsCard (props) {
   const { classes, org } = props
 
   const onCardClick = () => {
-    props.history.push('/repos/' + org.login)
+    props.history.push('/orgs/' + org.login)
   }
 
   return (
