@@ -7,8 +7,10 @@ import { logOut } from '../utils/firebase/login'
 import { getToken, getUserSettings, saveUserSettings } from '../utils/functions'
 import { requestPermission } from '../utils/firebase/messaging'
 import {updateDatabaseWithGithubDataByToken, setNoticesToRead, onRepos, onOrgs} from '../utils/firebase/database'
+import { BrowserRouter, Route } from 'react-router-dom'
 import { Chip } from '@material-ui/core'
 import PopUpMessage from '../components/PopUpMessage'
+import Statistics from '../components/Statistics'
 
 const onLogoutClick = () => {
   logOut()
@@ -48,19 +50,30 @@ const Dashboard = () => {
   }, [])
   onMenuClose()
 
-  return (
-    <div>
-      <PopUpMessage />
-      <Menu showMenu={showMenu} setShowMenu={setShowMenu}
-        showAdmin={showAdmin} setShowAdmin={() => toggleShowAdmin(showAdmin, setShowAdmin)}
-        setShowOrganisations={setShowOrganisations} setOrgToShow={setOrgToShow} />
-      <Navbar onLogoutClick={() => onLogoutClick()} onMenuClick={() => setShowMenu(true)} />
-      {orgToShow ? <Chip label={orgToShow} onDelete={() => setOrgToShow(false)} /> : null}
-      {
+  const renderDashboard = () => {
+    return (
+
         showOrganisations
       ? <Organizations orgs={orgs} showAdmin={showAdmin} setOrgToShow={setOrgToShow} setShowOrganisations={setShowOrganisations} />
       : <Repos repositories={repos} showAdmin={showAdmin} orgToShow={orgToShow} />
-      }
+
+    )
+  }
+
+  return (
+    <div>
+      <PopUpMessage />
+
+      <Menu showMenu={showMenu} setShowMenu={setShowMenu}
+        showAdmin={showAdmin} setShowAdmin={() => toggleShowAdmin(showAdmin, setShowAdmin)}
+        setShowOrganisations={setShowOrganisations} setOrgToShow={setOrgToShow} />
+
+      <Navbar onLogoutClick={() => onLogoutClick()} onMenuClick={() => setShowMenu(true)} />
+
+      {orgToShow ? <Chip label={orgToShow} onDelete={() => setOrgToShow(false)} /> : null}
+
+      { renderDashboard() }
+
     </div>
   )
 }

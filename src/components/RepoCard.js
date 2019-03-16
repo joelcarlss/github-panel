@@ -1,5 +1,8 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+
+import { Redirect, Route } from 'react-router-dom'
+
 import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -28,7 +31,7 @@ const onCardClick = (repo) => {
 }
 
 const OnIssuesClick = (repo) => {
-
+  console.log('clock')
 }
 const OnSubscribe = (repo) => {
   createWebhookAndUpdateRepo(repo)
