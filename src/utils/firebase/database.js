@@ -90,12 +90,15 @@ export const onNoticeCount = (cb) => {
 
 export const setNoticesToRead = (cb) => {
   let user = firebase.auth().currentUser
+  let batch = db.batch()
   db.collection('notices').where('firebaseId', '==', user.uid)
   .get()
   .then(data => {
     data.forEach(element => {
-      element.ref.update({read: true}) // BATCH
+      // element.ref.update({read: true}) // BATCH
+      batch.update(element.ref, {read: true})
     })
+    batch.commit()
   })
 }
 

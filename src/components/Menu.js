@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
 import { Link } from 'react-router-dom'
+import {useAppState} from '../pages/useAppState'
 
 import { withStyles } from '@material-ui/core/styles'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
@@ -28,14 +29,9 @@ const styles = {
   }
 }
 
-const SwipeableTemporaryDrawer = (props) => {
-  const {
-    classes,
-    showMenu,
-    setShowMenu,
-    showAdmin,
-    setShowAdmin
-  } = props
+const Menu = (props) => {
+  const { classes } = props
+  const {showMenu, setShowMenu, showOnlyAdmin, toggleShowAdmin} = useAppState()
 
   const [notices, setNotices] = useState(false)
 
@@ -97,9 +93,9 @@ const SwipeableTemporaryDrawer = (props) => {
             <FormGroup>
               <FormControlLabel
                 control={
-                  <Switch checked={showAdmin} onChange={setShowAdmin} aria-label='LoginSwitch' />
+                  <Switch checked={showOnlyAdmin} onChange={toggleShowAdmin} aria-label='ShowOnlyAdminSwitch' />
               }
-                label={showAdmin ? 'All Repos' : 'Admin Repos'}
+                label={showOnlyAdmin ? 'All Repos' : 'Admin Repos'}
             />
             </FormGroup>
           </ListItem>
@@ -149,8 +145,8 @@ const SwipeableTemporaryDrawer = (props) => {
   )
 }
 
-SwipeableTemporaryDrawer.propTypes = {
+Menu.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(SwipeableTemporaryDrawer)
+export default withStyles(styles)(Menu)

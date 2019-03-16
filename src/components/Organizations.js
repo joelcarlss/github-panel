@@ -1,7 +1,9 @@
 import React from 'react'
 import OrganizationCard from './OrganizationCard'
+import {useAppState} from '../pages/useAppState'
 
-const Organizations = ({orgs}) => {
+const Organizations = () => {
+  const {orgs} = useAppState()
   if (!orgs) {
     return null
   }

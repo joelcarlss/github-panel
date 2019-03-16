@@ -19,12 +19,12 @@ export const getToken = () => {
 export const saveUserToDb = async () => {
   let token = getGithubToken()
   let user = await getUser(token)
-  console.log(user)
   return setUserToDb(user.id, user.login)
 }
 
 export const getUserReposAndWebhooksAsObject = async (token) => {
   let userRepos = await getUserRepos(token)
+  // userRepos = userRepos.map(({login}) => ({login}))
   let obj = {}
 
   for (let i = 0; i < userRepos.length; i++) {
@@ -111,8 +111,8 @@ const getGithubRepoStatistics = async (repo, token) => {
   let owner = repo.owner.login
   let repoName = repo.name
 
-  statistics.contributors = await githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/contributors`, token) || undefined
-  statistics.weeklyCommits = await githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/participation`, token) || undefined
+  statistics.contributors = await githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/contributors`, token) || []
+  statistics.weeklyCommits = await githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/participation`, token) || []
   return statistics
 }
 

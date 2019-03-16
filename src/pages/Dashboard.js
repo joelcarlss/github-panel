@@ -5,35 +5,24 @@ import Organizations from '../components/Organizations'
 import Menu from '../components/Menu'
 import { logOut } from '../utils/firebase/login'
 import { BrowserRouter, Route } from 'react-router-dom'
-import useAppState from './useAppState'
+import {Provider} from './useAppState'
 
 import PopUpMessage from '../components/PopUpMessage'
 import Statistics from '../components/Statistics'
 
 const Dashboard = () => {
-  const {
-    showMenu,
-    setShowMenu,
-    showOnlyAdmin,
-    setShowOnlyAdmin,
-    toggleShowAdmin,
-    repos,
-    orgs
-  } = useAppState()
-
   return (
     <div>
       <BrowserRouter>
         <div>
           <PopUpMessage />
-          <Menu showMenu={showMenu} setShowMenu={setShowMenu}
-            showAdmin={showOnlyAdmin} setShowAdmin={() => toggleShowAdmin(showOnlyAdmin, setShowOnlyAdmin)} />
+          <Menu />
 
-          <Navbar onLogoutClick={() => logOut()} onMenuClick={() => setShowMenu(true)} />
+          <Navbar onLogoutClick={() => logOut()} />
 
-          <Route exact path='/' render={() => <Repos repositories={repos} showAdmin={showOnlyAdmin} />} />
-          <Route exact path='/orgs' render={() => <Organizations orgs={orgs} showAdmin={showOnlyAdmin} />} />
-          <Route exact path='/orgs/:org' render={({match}) => <Repos repositories={repos} showAdmin={showOnlyAdmin} orgToShow={match.params.org} />} />
+          <Route exact path='/' component={Repos} />
+          <Route exact path='/orgs' component={Organizations} />
+          <Route exact path='/orgs/:org' component={Repos} />
           <Route exact path='/statistics/:id' component={Statistics} />
         </div>
       </BrowserRouter>
@@ -42,4 +31,4 @@ const Dashboard = () => {
   )
 }
 
-export default Dashboard
+export default () => <Provider><Dashboard /></Provider>

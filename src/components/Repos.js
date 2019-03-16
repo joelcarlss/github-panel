@@ -1,18 +1,20 @@
 import React from 'react'
 import { withRouter } from 'react-router-dom'
+import {useAppState} from '../pages/useAppState'
 
 import { Chip } from '@material-ui/core'
 
 import RepoCard from './RepoCard'
 
-const Repos = (props) => {
-  const { repositories, showAdmin, orgToShow, history } = props
-  if (!repositories) {
+const Repos = ({history, match}) => {
+  let { repos, showOnlyAdmin } = useAppState()
+  const orgToShow = match.params.org
+  if (!repos) {
     return null
   }
 
-  let repos = Object.values(repositories)
-  if (showAdmin) {
+  repos = Object.values(repos)
+  if (showOnlyAdmin) {
     repos = repos.filter(repo => repo.permissions.admin)
   }
   if (orgToShow) {
