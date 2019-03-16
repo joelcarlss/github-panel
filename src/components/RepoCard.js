@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Redirect, Route, Link } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 
 import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -31,10 +31,6 @@ function RepoCard (props) {
     console.log(repo)
   }
 
-  const OnIssuesClick = (repo) => {
-    console.log('clock')
-    return <Link to='/statistics' />
-  }
   const OnSubscribe = (repo) => {
     createWebhookAndUpdateRepo(repo)
   }

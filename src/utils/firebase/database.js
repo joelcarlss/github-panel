@@ -95,7 +95,6 @@ export const setNoticesToRead = (cb) => {
   .get()
   .then(data => {
     data.forEach(element => {
-      // element.ref.update({read: true}) // BATCH
       batch.update(element.ref, {read: true})
     })
     batch.commit()
