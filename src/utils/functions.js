@@ -24,12 +24,12 @@ export const saveUserToDb = async () => {
 
 export const getUserReposAndWebhooksAsObject = async (token) => {
   let userRepos = await getUserRepos(token)
-  // userRepos = userRepos.map(({login}) => ({login}))
+  // userRepos = userRepos.map(({id}) => ({id}))
   let obj = {}
 
   for (let i = 0; i < userRepos.length; i++) {
     userRepos[i].webhooks = await getGithubWebhooks(userRepos[i], token)
-    userRepos[i].statistics = await getGithubRepoStatistics(userRepos[i], token)
+    // userRepos[i].statistics = await getGithubRepoStatistics(userRepos[i], token)
     obj[userRepos[i].id] = userRepos[i]
   }
   return obj

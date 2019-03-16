@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import {useAppState} from '../pages/useAppState'
 
 import { withStyles } from '@material-ui/core/styles'
@@ -29,8 +29,7 @@ const styles = {
   }
 }
 
-const Menu = (props) => {
-  const { classes } = props
+const Menu = ({classes, history}) => {
   const {showMenu, setShowMenu, showOnlyAdmin, toggleShowAdmin} = useAppState()
 
   const [notices, setNotices] = useState(false)
@@ -101,16 +100,12 @@ const Menu = (props) => {
           </ListItem>
         </List>
         <List>
-          <Link to='/'>
-            <ListItem button key={'Repositories'}>
-              <ListItemText primary={'Repositories'} />
-            </ListItem>
-          </Link>
-          <Link to='/orgs'>
-            <ListItem button key={'Organisations'}>
-              <ListItemText primary={'Organisations'} />
-            </ListItem>
-          </Link>
+          <ListItem button key={'Repositories'} onClick={() => history.push('/')}>
+            <ListItemText primary={'Repositories'} />
+          </ListItem>
+          <ListItem button key={'Organisations'} onClick={() => history.push('/orgs')}>
+            <ListItemText primary={'Organisations'} />
+          </ListItem>
         </List>
       </div>
       <div
@@ -149,4 +144,4 @@ Menu.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(Menu)
+export default withRouter(withStyles(styles)(Menu))

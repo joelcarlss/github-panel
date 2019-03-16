@@ -1,5 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { withRouter } from 'react-router-dom'
 import { withStyles } from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
@@ -24,7 +25,7 @@ const styles = {
   }
 }
 
-function Navbar ({onLogoutClick, classes}) {
+function Navbar ({onLogoutClick, classes, history}) {
   const { setShowMenu, noticeCount } = useAppState()
 
   const open = () => {
@@ -41,7 +42,7 @@ function Navbar ({onLogoutClick, classes}) {
               <MenuIcon />
             </Badge>
           </IconButton>
-          <Typography variant='h6' color='inherit' className={classes.grow}>
+          <Typography variant='h6' color='inherit' className={classes.grow} onClick={() => history.push('/')} style={{cursor: 'pointer'}}>
             GithubDashboard
           </Typography>
           <Button color='inherit' onClick={onLogoutClick}>Logout</Button>
@@ -55,4 +56,4 @@ Navbar.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(Navbar)
+export default withRouter(withStyles(styles)(Navbar))

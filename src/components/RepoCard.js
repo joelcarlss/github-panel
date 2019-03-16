@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -26,18 +26,14 @@ const styles = {
   }
 }
 
-function RepoCard (props) {
-  const onCardClick = (repo) => {
-    console.log(repo)
-  }
-
-  const OnSubscribe = (repo) => {
+function RepoCard ({ classes, repo, history }) {
+  const OnSubscribe = () => {
     createWebhookAndUpdateRepo(repo)
   }
   const OnUnsubscribe = (repo) => {
     deleteWebhookAndUpdateRepo(repo)
   }
-  const subscribeButton = (repo) => {
+  const subscribeButton = () => {
     if (repo.permissions.admin) {
       if (findCorrectHookIdInRepo(repo)) {
         return (
@@ -54,8 +50,6 @@ function RepoCard (props) {
       }
     }
   }
-
-  const { classes, repo } = props
   return (
     <Card className={classes.card} style={{width: '25%', margin: '0.2%'}}>
       <CardActionArea>
@@ -63,7 +57,7 @@ function RepoCard (props) {
           className={classes.media}
           image={repo.owner.avatar_url}
           title={repo.owner.login}
-          onClick={() => onCardClick(repo)}
+          onClick={() => history.push('/statistics/' + repo.name)}
         />
         <CardContent>
           <Typography gutterBottom variant='h5' component='h2'>
@@ -75,12 +69,7 @@ function RepoCard (props) {
         </CardContent>
       </CardActionArea>
       <CardActions style={{marginBottom: '0'}}>
-        <Link to={'/statistics/' + repo.name}>
-          <Button size='small' variant='contained'>
-            Statistics
-          </Button>
-        </Link>
-        {subscribeButton(repo)}
+        {subscribeButton()}
       </CardActions>
     </Card>
   )
@@ -90,4 +79,4 @@ RepoCard.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(RepoCard)
+export default withRouter(withStyles(styles)(RepoCard))
