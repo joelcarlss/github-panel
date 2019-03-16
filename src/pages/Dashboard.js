@@ -5,6 +5,7 @@ import Organizations from '../components/Organizations'
 import Menu from '../components/Menu'
 import { logOut } from '../utils/firebase/login'
 import { getToken } from '../utils/functions'
+import { useLocalStorage } from '../utils/hooks'
 import { requestPermission } from '../utils/firebase/messaging'
 import {updateDatabaseWithGithubDataByToken, setNoticesToRead, onRepos, onOrgs} from '../utils/firebase/database'
 import { BrowserRouter, Route } from 'react-router-dom'
@@ -12,22 +13,12 @@ import { Chip } from '@material-ui/core'
 import PopUpMessage from '../components/PopUpMessage'
 import Statistics from '../components/Statistics'
 
-function useLocalstorage (key, initialValue) {
-  const [value, _setValue] = useState(window.localStorage.getItem(key) || initialValue)
-  const setValue = _value => {
-    window.localStorage.setItem(key, _value)
-    _setValue(_value)
-  }
-  return [value, setValue]
-}
-
 const onLogoutClick = () => {
   logOut()
 }
 
 const Dashboard = () => {
-  const [showOnlyAdmin, setShowOnlyAdmin] = useLocalstorage('showOnlyAdmin', false)
-  const [showOrganisations, setShowOrganisations] = useLocalstorage('showOrganisations', false)
+  const [showOnlyAdmin, setShowOnlyAdmin] = useLocalStorage('showOnlyAdmin', false)
   const toggleShowAdmin = () => setShowOnlyAdmin(state => !state)
   const [repos, setRepos] = useState(false)
   const [orgs, setOrgs] = useState(false)
@@ -59,14 +50,13 @@ const Dashboard = () => {
         <div>
           <PopUpMessage />
           <Menu showMenu={showMenu} setShowMenu={setShowMenu}
-            showAdmin={showOnlyAdmin} setShowAdmin={() => toggleShowAdmin(showOnlyAdmin, setShowOnlyAdmin)}
-            setShowOrganisations={setShowOrganisations} setOrgToShow={setOrgToShow} />
+            showAdmin={showOnlyAdmin} setShowAdmin={() => toggleShowAdmin(showOnlyAdmin, setShowOnlyAdmin)} />
 
           <Navbar onLogoutClick={() => onLogoutClick()} onMenuClick={() => setShowMenu(true)} />
           {orgToShow ? <Chip label={orgToShow} onDelete={() => setOrgToShow(false)} /> : null}
 
           <Route exact path='/' render={() => <Repos repositories={repos} showAdmin={showOnlyAdmin} />} />
-          <Route exact path='/orgs' render={() => <Organizations orgs={orgs} showAdmin={showOnlyAdmin} setOrgToShow={setOrgToShow} setShowOrganisations={setShowOrganisations} />} />
+          <Route exact path='/orgs' render={() => <Organizations orgs={orgs} showAdmin={showOnlyAdmin} />} />
           <Route exact path='/repos/:org' render={({match}) => <Repos repositories={repos} showAdmin={showOnlyAdmin} orgToShow={match.params.org} />} />
           <Route exact path='/statistics/:id' component={Statistics} />
         </div>

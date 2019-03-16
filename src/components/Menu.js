@@ -34,9 +34,7 @@ const SwipeableTemporaryDrawer = (props) => {
     showMenu,
     setShowMenu,
     showAdmin,
-    setShowAdmin,
-    setShowOrganisations,
-    setOrgToShow
+    setShowAdmin
   } = props
 
   const [notices, setNotices] = useState(false)
@@ -44,11 +42,6 @@ const SwipeableTemporaryDrawer = (props) => {
   useEffect(() => {
     onNotices((doc) => setNotices(doc))
   }, [])
-
-  const onReposClick = () => {
-    setShowOrganisations(false)
-    setOrgToShow(false)
-  }
 
   const onEventDeleteClick = () => {
     deleteUserNotices()
