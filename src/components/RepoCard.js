@@ -1,7 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 
-import { Redirect, Route } from 'react-router-dom'
+import { Redirect, Route, Link } from 'react-router-dom'
 
 import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
@@ -26,38 +26,39 @@ const styles = {
   }
 }
 
-const onCardClick = (repo) => {
-  console.log(repo)
-}
+function RepoCard (props) {
+  const onCardClick = (repo) => {
+    console.log(repo)
+  }
 
-const OnIssuesClick = (repo) => {
-  console.log('clock')
-}
-const OnSubscribe = (repo) => {
-  createWebhookAndUpdateRepo(repo)
-}
-const OnUnsubscribe = (repo) => {
-  deleteWebhookAndUpdateRepo(repo)
-}
-const subscribeButton = (repo) => {
-  if (repo.permissions.admin) {
-    if (findCorrectHookIdInRepo(repo)) {
-      return (
-        <Button size='small' variant='contained' color={'default'} onClick={() => OnUnsubscribe(repo)}>
-          Unsubscribe
+  const OnIssuesClick = (repo) => {
+    console.log('clock')
+    return <Link to='/statistics' />
+  }
+  const OnSubscribe = (repo) => {
+    createWebhookAndUpdateRepo(repo)
+  }
+  const OnUnsubscribe = (repo) => {
+    deleteWebhookAndUpdateRepo(repo)
+  }
+  const subscribeButton = (repo) => {
+    if (repo.permissions.admin) {
+      if (findCorrectHookIdInRepo(repo)) {
+        return (
+          <Button size='small' variant='contained' color={'default'} onClick={() => OnUnsubscribe(repo)}>
+            Unsubscribe
+          </Button>
+        )
+      } else {
+        return (
+          <Button size='small' variant='contained' color={'primary'} onClick={() => OnSubscribe(repo)}>
+          Subscribe
         </Button>
-      )
-    } else {
-      return (
-        <Button size='small' variant='contained' color={'primary'} onClick={() => OnSubscribe(repo)}>
-        Subscribe
-      </Button>
-      )
+        )
+      }
     }
   }
-}
 
-function RepoCard (props) {
   const { classes, repo } = props
   return (
     <Card className={classes.card} style={{width: '25%', margin: '0.2%'}}>
@@ -78,9 +79,11 @@ function RepoCard (props) {
         </CardContent>
       </CardActionArea>
       <CardActions style={{marginBottom: '0'}}>
-        <Button size='small' variant='contained' onClick={() => OnIssuesClick(repo)}>
-          Issues
-        </Button>
+        <Link to={'/statistics/' + repo.name}>
+          <Button size='small' variant='contained'>
+            Statistics
+          </Button>
+        </Link>
         {subscribeButton(repo)}
       </CardActions>
     </Card>

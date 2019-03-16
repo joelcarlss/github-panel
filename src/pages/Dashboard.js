@@ -29,12 +29,6 @@ const Dashboard = () => {
   const [showOrganisations, setShowOrganisations] = useState(settings.showOrganisations)
   const [orgToShow, setOrgToShow] = useState(false)
 
-  const onMenuClose = () => {
-    if (showMenu === false) {
-      setNoticesToRead()
-    }
-  }
-
   saveUserSettings({showAdmin, showOrganisations})
   useEffect(() => {
     try {
@@ -48,7 +42,12 @@ const Dashboard = () => {
       console.log(e) // TODO: Show data from API instead?
     }
   }, [])
-  onMenuClose()
+
+  useEffect(() => {
+    if (showMenu === false) {
+      setNoticesToRead()
+    }
+  }, [showMenu])
 
   const renderDashboard = () => {
     return (
@@ -62,18 +61,23 @@ const Dashboard = () => {
 
   return (
     <div>
-      <PopUpMessage />
+      <BrowserRouter>
+        <div>
+          <PopUpMessage />
+          <Menu showMenu={showMenu} setShowMenu={setShowMenu}
+            showAdmin={showAdmin} setShowAdmin={() => toggleShowAdmin(showAdmin, setShowAdmin)}
+            setShowOrganisations={setShowOrganisations} setOrgToShow={setOrgToShow} />
 
-      <Menu showMenu={showMenu} setShowMenu={setShowMenu}
-        showAdmin={showAdmin} setShowAdmin={() => toggleShowAdmin(showAdmin, setShowAdmin)}
-        setShowOrganisations={setShowOrganisations} setOrgToShow={setOrgToShow} />
+          <Navbar onLogoutClick={() => onLogoutClick()} onMenuClick={() => setShowMenu(true)} />
 
-      <Navbar onLogoutClick={() => onLogoutClick()} onMenuClick={() => setShowMenu(true)} />
+          {orgToShow ? <Chip label={orgToShow} onDelete={() => setOrgToShow(false)} /> : null}
 
-      {orgToShow ? <Chip label={orgToShow} onDelete={() => setOrgToShow(false)} /> : null}
+          <Route exact path='/' component={renderDashboard} />
+          <Route exact path='/statistics/:id' component={Statistics} />
+        </div>
+      </BrowserRouter>
 
-      { renderDashboard() }
-
+      {/* {renderDashboard()} */}
     </div>
   )
 }

@@ -1,35 +1,37 @@
 import firebase from './config'
 import {getUserReposAndWebhooksAsObject, getUserOrganisationsAsObject} from '../functions'
 
+const db = firebase.firestore()
+
 export const populateDatabaseWithGithubDataByToken = async (token) => {
   let user = await firebase.auth().currentUser
   getUserReposAndWebhooksAsObject(token)
-  .then(repos => firebase.firestore().collection('repos').doc(user.uid).set(repos))
+  .then(repos => db.collection('repos').doc(user.uid).set(repos))
   getUserOrganisationsAsObject(token)
-  .then(orgs => firebase.firestore().collection('organizations').doc(user.uid).set(orgs))
+  .then(orgs => db.collection('organizations').doc(user.uid).set(orgs))
 }
 
 export const updateDatabaseWithGithubDataByToken = async (token) => {
   let user = await firebase.auth().currentUser
   getUserReposAndWebhooksAsObject(token)
-  .then((repos) => firebase.firestore().collection('repos').doc(user.uid).update(repos))
+  .then((repos) => db.collection('repos').doc(user.uid).update(repos))
   getUserOrganisationsAsObject(token)
-  .then(orgs => firebase.firestore().collection('organizations').doc(user.uid).update(orgs))
+  .then(orgs => db.collection('organizations').doc(user.uid).update(orgs))
 }
 
 export const putTokenToDatabase = async (token) => {
   let user = await firebase.auth().currentUser
-  await firebase.firestore().collection('githubToken').doc(user.uid).set({ token })
+  await db.collection('githubToken').doc(user.uid).set({ token })
 }
 
 export const updateRepoToDatabase = async (repo) => {
   let user = await firebase.auth().currentUser
-  await firebase.firestore().collection('repos').doc(user.uid).update({[repo.id]: repo})
+  await db.collection('repos').doc(user.uid).update({[repo.id]: repo})
 }
 
 export const setUserToDb = async (githubUserId, githubUserName) => {
   let user = await firebase.auth().currentUser
-  return firebase.firestore().collection('users').doc(user.uid).set(
+  return db.collection('users').doc(user.uid).set(
     {
       userId: user.uid,
       githubUserId,
@@ -44,25 +46,25 @@ export const setUserToDb = async (githubUserId, githubUserName) => {
 
 export const onRepos = (cb) => {
   let user = firebase.auth().currentUser
-  firebase.firestore().collection('repos').doc(user.uid)
+  db.collection('repos').doc(user.uid)
       .onSnapshot(doc => cb(doc))
 }
 
 export const onOrgs = (cb) => {
   let user = firebase.auth().currentUser
-  firebase.firestore().collection('organizations').doc(user.uid)
+  db.collection('organizations').doc(user.uid)
       .onSnapshot(doc => cb(doc))
 }
 
 export const onToken = (cb) => {
   let user = firebase.auth().currentUser
-  firebase.firestore().collection('githubToken').doc(user.uid)
+  db.collection('githubToken').doc(user.uid)
         .onSnapshot(doc => cb(doc))
 }
 
 export const onNotices = (cb) => {
   let user = firebase.auth().currentUser
-  firebase.firestore().collection('notices').where('firebaseId', '==', user.uid).limit(7).orderBy('time', 'desc')
+  db.collection('notices').where('firebaseId', '==', user.uid).limit(7).orderBy('time', 'desc')
   .onSnapshot(data => {
     let arr = []
     data.forEach(element => {
@@ -74,7 +76,7 @@ export const onNotices = (cb) => {
 
 export const onNoticeCount = (cb) => {
   let user = firebase.auth().currentUser
-  firebase.firestore().collection('notices').where('firebaseId', '==', user.uid)
+  db.collection('notices').where('firebaseId', '==', user.uid)
   .onSnapshot(data => {
     let number = 0
     data.forEach(element => {
@@ -88,8 +90,9 @@ export const onNoticeCount = (cb) => {
 
 export const setNoticesToRead = (cb) => {
   let user = firebase.auth().currentUser
-  firebase.firestore().collection('notices').where('firebaseId', '==', user.uid)
-  .onSnapshot(data => {
+  db.collection('notices').where('firebaseId', '==', user.uid)
+  .get()
+  .then(data => {
     data.forEach(element => {
       element.ref.update({read: true})
     })
@@ -98,13 +101,13 @@ export const setNoticesToRead = (cb) => {
 
 export const setMessageTokenToUser = async (messageToken) => {
   let user = await firebase.auth().currentUser
-  firebase.firestore().collection('users').doc(user.uid).set({messageToken}, {merge: true})
+  db.collection('users').doc(user.uid).set({messageToken}, {merge: true})
   .then(() => console.log)
 }
 
 export const getUserData = () => {
   let user = firebase.auth().currentUser
-  return firebase.firestore().collection('users').where('userId', '==', user.uid)
+  return db.collection('users').where('userId', '==', user.uid)
   .get()
   .then((doc) => {
     let user = []
@@ -117,11 +120,13 @@ export const getUserData = () => {
 
 export const deleteUserNotices = () => {
   let user = firebase.auth().currentUser
-  let dbData = firebase.firestore().collection('notices').where('firebaseId', '==', user.uid)
+  let batch = db.batch()
+  let dbData = db.collection('notices').where('firebaseId', '==', user.uid)
   dbData.get().then(querySnapshot => {
     querySnapshot.forEach(doc => {
-      doc.ref.delete()
+      batch.delete(doc.ref)
     })
+    batch.commit()
   }
 
   )
