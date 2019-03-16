@@ -4,7 +4,7 @@ import Repos from '../components/Repos'
 import Organizations from '../components/Organizations'
 import Menu from '../components/Menu'
 import { logOut } from '../utils/firebase/login'
-import { getToken, getUserSettings, saveUserSettings } from '../utils/functions'
+import { getToken } from '../utils/functions'
 import { requestPermission } from '../utils/firebase/messaging'
 import {updateDatabaseWithGithubDataByToken, setNoticesToRead, onRepos, onOrgs} from '../utils/firebase/database'
 import { BrowserRouter, Route } from 'react-router-dom'
@@ -12,24 +12,28 @@ import { Chip } from '@material-ui/core'
 import PopUpMessage from '../components/PopUpMessage'
 import Statistics from '../components/Statistics'
 
+function useLocalstorage (key, initialValue) {
+  const [value, _setValue] = useState(window.localStorage.getItem(key) || initialValue)
+  const setValue = _value => {
+    window.localStorage.setItem(key, _value)
+    _setValue(_value)
+  }
+  return [value, setValue]
+}
+
 const onLogoutClick = () => {
   logOut()
 }
 
-const toggleShowAdmin = (showAdmin, setShowAdmin) => {
-  showAdmin ? setShowAdmin(false) : setShowAdmin(true)
-}
-
 const Dashboard = () => {
-  let settings = getUserSettings()
+  const [showOnlyAdmin, setShowOnlyAdmin] = useLocalstorage('showOnlyAdmin', false)
+  const [showOrganisations, setShowOrganisations] = useLocalstorage('showOrganisations', false)
+  const toggleShowAdmin = () => setShowOnlyAdmin(state => !state)
   const [repos, setRepos] = useState(false)
   const [orgs, setOrgs] = useState(false)
   const [showMenu, setShowMenu] = useState(null)
-  const [showAdmin, setShowAdmin] = useState(settings.showAdmin)
-  const [showOrganisations, setShowOrganisations] = useState(settings.showOrganisations)
   const [orgToShow, setOrgToShow] = useState(false)
 
-  saveUserSettings({showAdmin, showOrganisations})
   useEffect(() => {
     try {
       let token = getToken() // TODO: Not a local storage variable
@@ -53,8 +57,8 @@ const Dashboard = () => {
     return (
 
         showOrganisations
-      ? <Organizations orgs={orgs} showAdmin={showAdmin} setOrgToShow={setOrgToShow} setShowOrganisations={setShowOrganisations} />
-      : <Repos repositories={repos} showAdmin={showAdmin} orgToShow={orgToShow} />
+      ? <Organizations orgs={orgs} showAdmin={showOnlyAdmin} setOrgToShow={setOrgToShow} setShowOrganisations={setShowOrganisations} />
+      : <Repos repositories={repos} showAdmin={showOnlyAdmin} orgToShow={orgToShow} />
 
     )
   }
@@ -65,7 +69,7 @@ const Dashboard = () => {
         <div>
           <PopUpMessage />
           <Menu showMenu={showMenu} setShowMenu={setShowMenu}
-            showAdmin={showAdmin} setShowAdmin={() => toggleShowAdmin(showAdmin, setShowAdmin)}
+            showAdmin={showOnlyAdmin} setShowAdmin={() => toggleShowAdmin(showOnlyAdmin, setShowOnlyAdmin)}
             setShowOrganisations={setShowOrganisations} setOrgToShow={setOrgToShow} />
 
           <Navbar onLogoutClick={() => onLogoutClick()} onMenuClick={() => setShowMenu(true)} />

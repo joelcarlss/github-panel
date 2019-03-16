@@ -8,20 +8,6 @@ export const userWebhookUrl = () => {
   return `${webhookUrl}?id=${userId}`
 }
 
-export const saveUserSettings = (settings) => {
-  let admin = settings.showAdmin || false
-  let organisations = settings.showOrganisations || false
-  window.localStorage.setItem('organisations', organisations)
-  window.localStorage.setItem('admin', admin)
-}
-
-export const getUserSettings = () => {
-  let settings = {}
-  settings.showAdmin = JSON.parse(window.localStorage.getItem('admin')) || false
-  settings.showOrganisations = JSON.parse(window.localStorage.getItem('organisations')) || false
-  return settings
-}
-
 export const saveToken = (token) => {
   window.localStorage.setItem('token', token)
 }
