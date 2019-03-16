@@ -1,5 +1,7 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import {withRouter} from 'react-router-dom'
+
 import { withStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -38,7 +40,12 @@ const showMembers = (members) => {
 }
 
 function OrganizationsCard (props) {
-  const { classes, org, onCardClick } = props
+  const { classes, org } = props
+
+  const onCardClick = () => {
+    props.history.push('/repos/' + org.login)
+  }
+
   return (
     <Card className={classes.card} onClick={onCardClick} style={{width: '32%', margin: '0.2%'}}>
       <CardActionArea>
@@ -64,4 +71,4 @@ OrganizationsCard.propTypes = {
   classes: PropTypes.object.isRequired
 }
 
-export default withStyles(styles)(OrganizationsCard)
+export default withStyles(styles)(withRouter(OrganizationsCard))

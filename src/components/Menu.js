@@ -1,5 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
+import { Link } from 'react-router-dom'
 
 import { withStyles } from '@material-ui/core/styles'
 import SwipeableDrawer from '@material-ui/core/SwipeableDrawer'
@@ -111,12 +112,16 @@ const SwipeableTemporaryDrawer = (props) => {
           </ListItem>
         </List>
         <List>
-          <ListItem button key={'Repositories'} onClick={() => onReposClick()}>
-            <ListItemText primary={'Repositories'} />
-          </ListItem>
-          <ListItem button key={'Organisations'} onClick={() => setShowOrganisations(true)}>
-            <ListItemText primary={'Organisations'} />
-          </ListItem>
+          <Link to='/'>
+            <ListItem button key={'Repositories'}>
+              <ListItemText primary={'Repositories'} />
+            </ListItem>
+          </Link>
+          <Link to='/orgs'>
+            <ListItem button key={'Organisations'}>
+              <ListItemText primary={'Organisations'} />
+            </ListItem>
+          </Link>
         </List>
       </div>
       <div

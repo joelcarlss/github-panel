@@ -53,16 +53,6 @@ const Dashboard = () => {
     }
   }, [showMenu])
 
-  const renderDashboard = () => {
-    return (
-
-        showOrganisations
-      ? <Organizations orgs={orgs} showAdmin={showOnlyAdmin} setOrgToShow={setOrgToShow} setShowOrganisations={setShowOrganisations} />
-      : <Repos repositories={repos} showAdmin={showOnlyAdmin} orgToShow={orgToShow} />
-
-    )
-  }
-
   return (
     <div>
       <BrowserRouter>
@@ -73,10 +63,11 @@ const Dashboard = () => {
             setShowOrganisations={setShowOrganisations} setOrgToShow={setOrgToShow} />
 
           <Navbar onLogoutClick={() => onLogoutClick()} onMenuClick={() => setShowMenu(true)} />
-
           {orgToShow ? <Chip label={orgToShow} onDelete={() => setOrgToShow(false)} /> : null}
 
-          <Route exact path='/' component={renderDashboard} />
+          <Route exact path='/' render={() => <Repos repositories={repos} showAdmin={showOnlyAdmin} />} />
+          <Route exact path='/orgs' render={() => <Organizations orgs={orgs} showAdmin={showOnlyAdmin} setOrgToShow={setOrgToShow} setShowOrganisations={setShowOrganisations} />} />
+          <Route exact path='/repos/:org' render={({match}) => <Repos repositories={repos} showAdmin={showOnlyAdmin} orgToShow={match.params.org} />} />
           <Route exact path='/statistics/:id' component={Statistics} />
         </div>
       </BrowserRouter>
