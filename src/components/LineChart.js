@@ -13,24 +13,26 @@ const styles = theme => ({
 })
 
 const getBackgroundColors = (data) => {
-  let backgroundColor = [
+  let backgroundColors = [
     'rgba(255, 99, 132, 0.6)',
     'rgba(54, 162, 235, 0.6)',
     'rgba(75, 192, 192, 0.6)',
     'rgba(153, 102, 255, 0.6)'
   ]
-  return backgroundColor
+  let populatedArray = Array.from(Array(data.length), (_, index) => backgroundColors[index % backgroundColors.length])
+  return populatedArray
 }
 
 const LineChart = ({classes, data, title}) => {
   let labels = data.map((a, index) => (index - data.length)) // TODO: Write actual week
+  let backgroundColor = getBackgroundColors(data)
   const chartData = {
     labels,
     datasets: [
       {
         label: 'Population',
         data,
-        backgroundColor: []
+        backgroundColor
       }
     ]
   }
