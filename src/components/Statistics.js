@@ -23,8 +23,6 @@ const contributionData = (contributors) => {
   }
   let authors = contributors.map(({author}) => (author))
   let commits = contributors.map(({total}) => (total))
-  console.log(authors)
-  console.log(commits)
   return {
     authors,
     commits
@@ -44,10 +42,9 @@ const Statistics = (props) => {
   return (
     <div style={{width: '100%', textAlign: 'center'}}>
       <div style={{width: '70%', margin: 'auto'}}>
-        <Typography variant='h5' component='h3'>Statistics</Typography>
-        <p>{repo.name}</p>
+        <Typography variant='h5' component='h3'>{repo.name}</Typography>
         <LineChart data={repo.weeklyCommits} title={'Weekly Commits'} />
-        <PieChart data={chartData.data} labels={chartData.labels} title={'Contributors'} />
+        <PieChart data={commits} labels={authors} title={'Contributors'} />
       </div>
     </div>
   )
