@@ -29,8 +29,9 @@ export const getUserReposAndWebhooksAsObject = async (token) => {
 
   for (let i = 0; i < userRepos.length; i++) {
     userRepos[i].webhooks = await getGithubWebhooks(userRepos[i], token)
-    // userRepos[i].statistics = await getGithubRepoStatistics(userRepos[i], token)
+    userRepos[i].statistics = await getGithubRepoStatistics(userRepos[i], token)
     obj[userRepos[i].id] = userRepos[i]
+    console.log(userRepos[i].statistics)
   }
   return obj
 }
@@ -110,9 +111,12 @@ const getGithubRepoStatistics = async (repo, token) => {
   let statistics = {}
   let owner = repo.owner.login
   let repoName = repo.name
-
-  statistics.contributors = await githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/contributors`, token) || []
-  statistics.weeklyCommits = await githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/participation`, token) || []
+  statistics.contributors = await githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/contributors`, token)
+  .then(contributors => {
+    return contributors.map(({author, total, weeks}) => ({author: author.login, total, weeks}))
+  })
+  console.log(statistics.contributors)
+  // statistics.weeklyCommits = await githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/participation`, token) || []
   return statistics
 }
 
