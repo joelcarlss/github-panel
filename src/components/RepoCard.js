@@ -59,7 +59,7 @@ function RepoCard ({ classes, repo, history }) {
           className={classes.media}
           image={repo.owner.avatar_url}
           title={repo.owner.login}
-          onClick={() => history.push('/statistics/' + repo.name)}
+          onClick={() => history.push('/statistics/' + repo.id)}
         />
         <CardContent>
           <Typography gutterBottom variant='h5' component='h2'>

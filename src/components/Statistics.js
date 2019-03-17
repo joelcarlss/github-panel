@@ -20,13 +20,17 @@ const chartData = {
 const Statistics = (props) => {
   const { repos } = useAppState()
   let repo = repos[props.match.params.id]
+  if (!repo) {
+    return null
+  }
+  console.log(repo)
   return (
     <div style={{width: '100%', textAlign: 'center'}}>
       <div style={{width: '70%', margin: 'auto'}}>
         <Typography variant='h5' component='h3'>Statistics</Typography>
-        <p>{props.match.params.id}</p>
-        <LineChart data={chartData.data} labels={chartData.labels} title={'Title'} />
-        <PieChart data={chartData.data} labels={chartData.labels} title={'Title'} />
+        <p>{repo.name}</p>
+        <LineChart data={chartData.data} labels={chartData.labels} title={'Weekly Commits'} />
+        <PieChart data={chartData.data} labels={chartData.labels} title={'Contributors'} />
       </div>
     </div>
   )

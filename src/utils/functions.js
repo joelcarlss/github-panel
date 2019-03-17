@@ -31,7 +31,6 @@ export const getUserReposAndWebhooksAsObject = async (token) => {
     userRepos[i].webhooks = await getGithubWebhooks(userRepos[i], token)
     userRepos[i].statistics = await getGithubRepoStatistics(userRepos[i], token)
     obj[userRepos[i].id] = userRepos[i]
-    console.log(userRepos[i].statistics)
   }
   return obj
 }
@@ -114,8 +113,7 @@ const getGithubRepoStatistics = async (repo, token) => {
   statistics.contributors = await githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/contributors`, token)
   .then(contributors => {
     return contributors.map(({author, total}) => ({author: author.login, total}))
-  }).catch()
-  console.log(statistics.contributors)
+  }).catch(console.log)
   statistics.weeklyCommits = await githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/participation`, token)
   .then(commits => commits.all)
   .catch(console.log)
