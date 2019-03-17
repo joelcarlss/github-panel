@@ -113,10 +113,12 @@ const getGithubRepoStatistics = async (repo, token) => {
   let repoName = repo.name
   statistics.contributors = await githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/contributors`, token)
   .then(contributors => {
-    return contributors.map(({author, total, weeks}) => ({author: author.login, total, weeks}))
-  })
+    return contributors.map(({author, total}) => ({author: author.login, total}))
+  }).catch()
   console.log(statistics.contributors)
-  // statistics.weeklyCommits = await githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/participation`, token) || []
+  statistics.weeklyCommits = await githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/participation`, token)
+  .then(commits => commits.all)
+  .catch(console.log)
   return statistics
 }
 
