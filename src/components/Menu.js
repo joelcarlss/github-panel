@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react'
 import PropTypes from 'prop-types'
-import { Link, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import {useAppState} from '../pages/useAppState'
 
 import { withStyles } from '@material-ui/core/styles'
