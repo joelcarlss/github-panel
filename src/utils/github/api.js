@@ -2,8 +2,11 @@ export const webhookUrl = 'https://us-central1-githubdashboard-1cbfc.cloudfuncti
 
 export const getUser = async (token) => {
   try {
+    let data
     const result = await window.fetch('https://api.github.com/user', {headers: {Authorization: 'token ' + token}})
-    let data = await result.json()
+    if (result) {
+      data = await result.json()
+    }
     return data
   } catch (e) {
     console.log('ERROR')
@@ -13,8 +16,11 @@ export const getUser = async (token) => {
 
 export const getUserRepos = async (token) => {
   try {
+    let data
     const result = await window.fetch('https://api.github.com/user/repos', {headers: {Authorization: 'token ' + token}})
-    let data = await result.json()
+    if (result) {
+      data = await result.json()
+    }
     return data
   } catch (e) {
     console.log('ERROR')
@@ -24,8 +30,11 @@ export const getUserRepos = async (token) => {
 
 export const getUserOrganisations = async (token) => {
   try {
+    let data
     const result = await window.fetch('https://api.github.com/user/orgs', {headers: {Authorization: 'token ' + token}})
-    let data = await result.json()
+    if (result) {
+      data = await result.json()
+    }
     return data
   } catch (e) {
     console.log('ERROR')
@@ -35,9 +44,12 @@ export const getUserOrganisations = async (token) => {
 
 export const getUserRepo = async (token, owner, repoName) => {
   try {
+    let data
     const result = await window.fetch(`https://api.github.com/repos/${owner}/${repoName}`,
     {headers: {Authorization: 'token ' + token}})
-    let data = await result.json()
+    if (result) {
+      data = await result.json()
+    }
     return data
   } catch (e) {
     console.log('ERROR')
@@ -112,8 +124,11 @@ export const deleteWebhook = (token, repo, hookId) => {
 
 export const githubGetRequest = async (url, token) => {
   try {
+    let data
     const result = await window.fetch(url, {headers: {Authorization: 'token ' + token}})
-    let data = await result.json()
+    if (result) {
+      data = await result.json()
+    }
     return data
   } catch (e) {
     console.log('ERROR')

@@ -24,12 +24,20 @@ export const saveUserToDb = async () => {
 
 export const getUserReposAndWebhooksAsObject = async (token) => {
   let userRepos = await getUserRepos(token)
-  // userRepos = userRepos.map(({id}) => ({id}))
-  let obj = {}
+  userRepos = userRepos.map(({id, name, full_name, owner, description, url, permissions}) => (
+    {id, name, full_name, owner, description, url, permissions}))
 
+  let obj = {}
   for (let i = 0; i < userRepos.length; i++) {
     userRepos[i].webhooks = await getGithubWebhooks(userRepos[i], token)
-    userRepos[i].statistics = await getGithubRepoStatistics(userRepos[i], token)
+    let contributors = await getContributors(userRepos[i], token)
+    if (contributors) {
+      userRepos[i].contributors = contributors
+    }
+    let weeklyCommits = await getWeeklyCommits(userRepos[i], token)
+    if (weeklyCommits) {
+      userRepos[i].weeklyCommits = weeklyCommits
+    }
     obj[userRepos[i].id] = userRepos[i]
   }
   return obj
@@ -82,7 +90,18 @@ export const spliceWebhookAndUpdateRepo = (repo) => {
 
 export const updateRepo = async (owner, repoName) => {
   let token = getGithubToken()
-  let newRepo = await getUserRepo(token, owner, repoName)
+  let result = await getUserRepo(token, owner, repoName)
+  let allowed = ['id', 'name', 'full_name', 'owner', 'description', 'url', 'permissions']
+
+  const newRepo = Object.keys(result)
+  .filter(key => allowed.includes(key))
+  .reduce((obj, key) => {
+    return {
+      ...obj,
+      [key]: result[key]
+    }
+  }, {})
+
   getGithubWebhooks(newRepo, token)
   .then(repoWebhooks => {
     newRepo.webhooks = repoWebhooks
@@ -106,18 +125,23 @@ export const findCorrectHookIdInRepo = (repo) => {
   return id
 }
 
-const getGithubRepoStatistics = async (repo, token) => {
-  let statistics = {}
+const getContributors = (repo, token) => {
   let owner = repo.owner.login
   let repoName = repo.name
-  statistics.contributors = await githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/contributors`, token)
+  return githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/contributors`, token)
   .then(contributors => {
-    return contributors.map(({author, total}) => ({author: author.login, total}))
+    if (contributors) {
+      return contributors.map(({author, total}) => ({author: author.login, total}))
+    }
   }).catch(console.log)
-  statistics.weeklyCommits = await githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/participation`, token)
+}
+
+const getWeeklyCommits = (repo, token) => {
+  let owner = repo.owner.login
+  let repoName = repo.name
+  return githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/participation`, token)
   .then(commits => commits.all)
   .catch(console.log)
-  return statistics
 }
 
 const getGithubWebhooks = async (repo, token) => {
@@ -126,19 +150,23 @@ const getGithubWebhooks = async (repo, token) => {
     let owner = repo.owner.login
     let repoName = repo.name
     array = await getWebhooks(token, owner, repoName)
+    array = array.map(({id, url, active, config}) => ({id, url, active, config}))
   }
   return array
 }
 
-const getOrganisationMembers = (url, token) => {
-  return githubGetRequest(url + '/members', token)
+const getOrganisationMembers = async (url, token) => {
+  let organisationMembers = await githubGetRequest(url + '/members', token)
+  organisationMembers = organisationMembers.map(({avatar_url, id, login}) => ({avatar_url, id, login}))
+  return organisationMembers
 }
 
-export const getGithubOrganisations = async () => {
-  let token = getToken()
-  let orgs = await getUserOrganisations(token)
-  return orgs
-}
+// export const getGithubOrganisations = async () => {
+//   let token = getToken()
+//   let orgs = await getUserOrganisations(token)
+//   console.log(orgs)
+//   return orgs
+// }
 
 export const capitalizeFirstLetter = (string) => {
   if (typeof string === 'string') {

@@ -17,19 +17,36 @@ const chartData = {
   ]
 }
 
+const contributionData = (contributors) => {
+  if (!contributors) {
+    return { authors: 0, commits: 0 }
+  }
+  let authors = contributors.map(({author}) => (author))
+  let commits = contributors.map(({total}) => (total))
+  console.log(authors)
+  console.log(commits)
+  return {
+    authors,
+    commits
+  }
+}
+
 const Statistics = (props) => {
   const { repos } = useAppState()
+  if (!repos) {
+    return null
+  }
   let repo = repos[props.match.params.id]
   if (!repo) {
     return null
   }
-  console.log(repo)
+  let { authors, commits } = contributionData(repo.contributors)
   return (
     <div style={{width: '100%', textAlign: 'center'}}>
       <div style={{width: '70%', margin: 'auto'}}>
         <Typography variant='h5' component='h3'>Statistics</Typography>
         <p>{repo.name}</p>
-        <LineChart data={chartData.data} labels={chartData.labels} title={'Weekly Commits'} />
+        <LineChart data={repo.weeklyCommits} title={'Weekly Commits'} />
         <PieChart data={chartData.data} labels={chartData.labels} title={'Contributors'} />
       </div>
     </div>

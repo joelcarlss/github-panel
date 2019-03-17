@@ -133,3 +133,7 @@ export const deleteUserNotices = () => {
 
   )
 }
+
+export const deleteRepos = () => {
+  db.collection('repos').doc('fZKnYbYIxugXADVU0hJ5fqPxuQ82').delete().then(console.log).catch(console.log)
+}
