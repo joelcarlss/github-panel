@@ -16,10 +16,12 @@ import { createWebhookAndUpdateRepo, deleteWebhookAndUpdateRepo, findCorrectHook
 
 const styles = {
   card: {
-    maxWidth: 345
+    maxWidth: 345,
+    minWidth: 200
   },
   media: {
     height: 140
+
   },
   button: {
     color: 'gray'
