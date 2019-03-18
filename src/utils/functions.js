@@ -22,6 +22,20 @@ export const saveUserToDb = async () => {
   return setUserToDb(user.id, user.login)
 }
 
+// export const getReposAsObject = async (token) => {
+//   let obj = {}
+//   let userRepos = await getUserRepos(token)
+
+//   if (userRepos) {
+//     userRepos = userRepos.map(({id, name, full_name, owner, description, url, permissions}) => (
+//     {id, name, full_name, owner, description, url, permissions}))
+//     for (let i = 0; i < userRepos.length; i++) {
+//       obj[userRepos[i].id] = userRepos[i]
+//     }
+//   }
+//   return obj
+// }
+
 export const getUserReposAndWebhooksAsObject = async (token) => {
   let obj = {}
   let userRepos = await getUserRepos(token)

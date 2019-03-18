@@ -1,7 +1,7 @@
 import firebase from './config'
 // import {putTokenToDatabase} from './database'
 import Firebase from 'firebase'
-import {populateDatabaseWithGithubDataByToken} from './database'
+import {populateDatabaseWithGithubDataByToken, deleteRepos} from './database'
 import {saveUserToDb, saveToken} from '../functions'
 // import { requestPermission } from './messaging'
 
@@ -28,6 +28,7 @@ export function loginUserToGithub () {
 export const logOut = () => {
   firebase.auth().signOut().then(() => {
     console.log('Log out') // TODO: Redirect to /
+    deleteRepos()
   }).catch(error => {
     console.log('Log out Failure! ' + error)
   })

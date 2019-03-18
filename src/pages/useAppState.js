@@ -2,7 +2,7 @@ import {useEffect, useState, useContext} from 'react'
 import { getToken } from '../utils/functions'
 import { useLocalStorage } from '../utils/hooks'
 import { requestPermission } from '../utils/firebase/messaging'
-import {updateDatabaseWithGithubDataByToken, setNoticesToRead, onRepos, onOrgs, onNoticeCount} from '../utils/firebase/database'
+import {updateDatabaseWithGithubDataByToken, populateDatabaseWithGithubDataByToken, isUserRepos, setNoticesToRead, onRepos, onOrgs, onNoticeCount} from '../utils/firebase/database'
 import createContainer from 'constate'
 
 const useApp = () => {
@@ -15,16 +15,19 @@ const useApp = () => {
 
   useEffect(() => {
     try {
+      let token = getToken() // TODO: Not a local storage variable
       requestPermission()
 
       onRepos((doc) => setRepos(doc.data()))
       onOrgs((doc) => setOrgs(doc.data()))
       onNoticeCount((doc) => setNoticeCount(doc))
 
-      if (repos) {
-        let token = getToken() // TODO: Not a local storage variable
-        console.log('running update')
+      if (isUserRepos) {
+        console.log('Updating data')
         updateDatabaseWithGithubDataByToken(token)
+      } else {
+        console.log('Setting data')
+        populateDatabaseWithGithubDataByToken(token)
       }
     } catch (e) {
       console.log(e) // TODO: Show data from API instead?

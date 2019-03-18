@@ -5,18 +5,22 @@ const db = firebase.firestore()
 
 export const populateDatabaseWithGithubDataByToken = async (token) => {
   let user = await firebase.auth().currentUser
-  getUserReposAndWebhooksAsObject(token)
-  .then(repos => db.collection('repos').doc(user.uid).set(repos))
-  .then(getUserOrganisationsAsObject(token))
-  .then(orgs => db.collection('organizations').doc(user.uid).set(orgs))
+  Promise.all([
+    getUserReposAndWebhooksAsObject(token)
+    .then(repos => db.collection('repos').doc(user.uid).update(repos)),
+    getUserOrganisationsAsObject(token)
+    .then(orgs => db.collection('organizations').doc(user.uid).set(orgs))
+  ])
 }
 
 export const updateDatabaseWithGithubDataByToken = async (token) => {
   let user = await firebase.auth().currentUser
-  getUserReposAndWebhooksAsObject(token)
-  .then((repos) => db.collection('repos').doc(user.uid).update(repos))
-  getUserOrganisationsAsObject(token)
+  Promise.all([
+    getUserReposAndWebhooksAsObject(token)
+  .then((repos) => db.collection('repos').doc(user.uid).update(repos)),
+    getUserOrganisationsAsObject(token)
   .then(orgs => db.collection('organizations').doc(user.uid).update(orgs))
+  ])
 }
 
 export const putTokenToDatabase = async (token) => {
@@ -132,6 +136,14 @@ export const deleteUserNotices = () => {
   }
 
   )
+}
+
+export const isUserRepos = () => {
+  let user = firebase.auth().currentUser
+  db.collection('repos').doc(user.uid).get()
+  .then(doc => {
+    return doc.exists
+  })
 }
 
 export const deleteRepos = () => {
