@@ -15,13 +15,17 @@ const useApp = () => {
 
   useEffect(() => {
     try {
-      let token = getToken() // TODO: Not a local storage variable
-      updateDatabaseWithGithubDataByToken(token)
       requestPermission()
 
-      onRepos((doc) => { setRepos(doc.data()) })
+      onRepos((doc) => setRepos(doc.data()))
       onOrgs((doc) => setOrgs(doc.data()))
       onNoticeCount((doc) => setNoticeCount(doc))
+
+      if (repos) {
+        let token = getToken() // TODO: Not a local storage variable
+        console.log('running update')
+        updateDatabaseWithGithubDataByToken(token)
+      }
     } catch (e) {
       console.log(e) // TODO: Show data from API instead?
     }
@@ -32,6 +36,7 @@ const useApp = () => {
       setNoticesToRead()
     }
   }, [showMenu])
+
   return {
     showMenu,
     setShowMenu,

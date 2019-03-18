@@ -7,7 +7,7 @@ export const populateDatabaseWithGithubDataByToken = async (token) => {
   let user = await firebase.auth().currentUser
   getUserReposAndWebhooksAsObject(token)
   .then(repos => db.collection('repos').doc(user.uid).set(repos))
-  getUserOrganisationsAsObject(token)
+  .then(getUserOrganisationsAsObject(token))
   .then(orgs => db.collection('organizations').doc(user.uid).set(orgs))
 }
 

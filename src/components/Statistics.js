@@ -5,18 +5,6 @@ import Typography from '@material-ui/core/Typography'
 
 import {useAppState} from '../pages/useAppState'
 
-const chartData = {
-  labels: ['Boston', 'Worcester', 'Springfield', 'Lowell', 'Cambridge', 'New Bedford'],
-  data: [
-    617594,
-    181045,
-    153060,
-    106519,
-    105162,
-    95072
-  ]
-}
-
 const contributionData = (contributors) => {
   if (!contributors) {
     return { authors: 0, commits: 0 }

@@ -20,7 +20,7 @@ export function loginUserToGithub () {
       // .then(requestPermission())
     }
     // The signed-in user info.
-  }).catch(function (error) {
+  }).catch((error) => {
     console.log(error)
   })
 }

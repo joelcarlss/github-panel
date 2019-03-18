@@ -23,22 +23,24 @@ export const saveUserToDb = async () => {
 }
 
 export const getUserReposAndWebhooksAsObject = async (token) => {
-  let userRepos = await getUserRepos(token)
-  userRepos = userRepos.map(({id, name, full_name, owner, description, url, permissions}) => (
-    {id, name, full_name, owner, description, url, permissions}))
-
   let obj = {}
-  for (let i = 0; i < userRepos.length; i++) {
-    userRepos[i].webhooks = await getGithubWebhooks(userRepos[i], token)
-    let contributors = await getContributors(userRepos[i], token)
-    if (contributors) {
-      userRepos[i].contributors = contributors
+  let userRepos = await getUserRepos(token)
+
+  if (userRepos) {
+    userRepos = userRepos.map(({id, name, full_name, owner, description, url, permissions}) => (
+    {id, name, full_name, owner, description, url, permissions}))
+    for (let i = 0; i < userRepos.length; i++) {
+      userRepos[i].webhooks = await getGithubWebhooks(userRepos[i], token)
+      let contributors = await getContributors(userRepos[i], token)
+      if (contributors) {
+        userRepos[i].contributors = contributors
+      }
+      let weeklyCommits = await getWeeklyCommits(userRepos[i], token)
+      if (weeklyCommits) {
+        userRepos[i].weeklyCommits = weeklyCommits
+      }
+      obj[userRepos[i].id] = userRepos[i]
     }
-    let weeklyCommits = await getWeeklyCommits(userRepos[i], token)
-    if (weeklyCommits) {
-      userRepos[i].weeklyCommits = weeklyCommits
-    }
-    obj[userRepos[i].id] = userRepos[i]
   }
   return obj
 }
@@ -47,9 +49,11 @@ export const getUserOrganisationsAsObject = async (token) => {
   let orgs = await getUserOrganisations(token)
   let obj = {}
 
-  for (let i = 0; i < orgs.length; i++) {
-    orgs[i].members = await getOrganisationMembers(orgs[i].url, token)
-    obj[orgs[i].id] = orgs[i]
+  if (orgs) {
+    for (let i = 0; i < orgs.length; i++) {
+      orgs[i].members = await getOrganisationMembers(orgs[i].url, token)
+      obj[orgs[i].id] = orgs[i]
+    }
   }
   return obj
 }
