@@ -3,7 +3,7 @@ import firebase from './config'
 import Firebase from 'firebase'
 import {populateDatabaseWithGithubDataByToken} from './database'
 import {saveUserToDb, saveToken} from '../functions'
-import { requestPermission } from './messaging'
+// import { requestPermission } from './messaging'
 
 export function loginUserToGithub () {
   var provider = new Firebase.auth.GithubAuthProvider()
@@ -16,7 +16,8 @@ export function loginUserToGithub () {
       var token = result.credential.accessToken
       saveToken(token)
       populateDatabaseWithGithubDataByToken(token)
-      saveUserToDb().then(requestPermission())
+      saveUserToDb()
+      // .then(requestPermission())
     }
     // The signed-in user info.
   }).catch(function (error) {

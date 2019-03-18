@@ -1,5 +1,5 @@
 import React from 'react'
-import {Line, Pie} from 'react-chartjs-2'
+import {Pie} from 'react-chartjs-2'
 import {Paper} from '@material-ui/core'
 import { withStyles } from '@material-ui/core/styles'
 
