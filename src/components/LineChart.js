@@ -23,14 +23,14 @@ const getBackgroundColors = (data) => {
   return populatedArray
 }
 
-const LineChart = ({classes, data, title}) => {
+const LineChart = ({classes, data = [], title}) => {
   let labels = data.map((a, index) => (index - data.length)) // TODO: Write actual week
   let backgroundColor = getBackgroundColors(data)
   const chartData = {
     labels,
     datasets: [
       {
-        label: 'Population',
+        label: labels,
         data,
         backgroundColor
       }

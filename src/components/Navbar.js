@@ -30,7 +30,6 @@ function Navbar ({onLogoutClick, classes, history}) {
 
   const open = () => {
     setShowMenu(true)
-    console.log('open')
   }
 
   return (
