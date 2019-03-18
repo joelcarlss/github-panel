@@ -19,10 +19,7 @@ const useApp = () => {
       updateDatabaseWithGithubDataByToken(token)
       requestPermission()
 
-      onRepos((doc) => {
-        setRepos(doc.data())
-      })
-
+      onRepos((doc) => { setRepos(doc.data()) })
       onOrgs((doc) => setOrgs(doc.data()))
       onNoticeCount((doc) => setNoticeCount(doc))
     } catch (e) {
