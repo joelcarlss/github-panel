@@ -131,6 +131,7 @@ const getContributors = (repo, token) => {
   return githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/contributors`, token)
   .then(contributors => {
     if (contributors) {
+      console.log(contributors)
       return contributors.map(({author, total}) => ({author: author.login, total}))
     }
   }).catch(console.log)

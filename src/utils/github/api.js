@@ -9,8 +9,8 @@ export const getUser = async (token) => {
     }
     return data
   } catch (e) {
-    console.log('ERROR')
-    console.log('There was an error fetching the data: ' + e)
+    console.log(e)
+    return undefined
   }
 }
 
@@ -23,8 +23,8 @@ export const getUserRepos = async (token) => {
     }
     return data
   } catch (e) {
-    console.log('ERROR')
-    console.log('There was an error fetching the data: ' + e)
+    console.log(e)
+    return undefined
   }
 }
 
@@ -37,8 +37,8 @@ export const getUserOrganisations = async (token) => {
     }
     return data
   } catch (e) {
-    console.log('ERROR')
-    console.log('There was an error fetching the data: ' + e)
+    console.log(e)
+    return undefined
   }
 }
 
@@ -52,8 +52,8 @@ export const getUserRepo = async (token, owner, repoName) => {
     }
     return data
   } catch (e) {
-    console.log('ERROR')
-    console.log('There was an error fetching the data: ' + e)
+    console.log(e)
+    return undefined
   }
 }
 
@@ -63,8 +63,8 @@ export const getWebhooks = async (token, owner, repoName) => {
     {headers: {Authorization: 'token ' + token}})
     .then(result => result.json())
   } catch (e) {
-    console.log('ERROR')
-    console.log('There was an error fetching the data: ' + e)
+    console.log(e)
+    return undefined
   }
 }
 
@@ -99,8 +99,8 @@ const sendWebhookRequest = async (token, owner, repoName, data) => {
     console.log(jsonResult)
     return jsonResult
   } catch (e) {
-    console.log('ERROR')
-    console.log('There was an error fetching the data: ' + e)
+    console.log(e)
+    return undefined
   }
 }
 
@@ -117,8 +117,8 @@ export const deleteWebhook = (token, repo, hookId) => {
         method: 'DELETE'
       })
   } catch (e) {
-    console.log('ERROR')
-    console.log('There was an error fetching the data: ' + e)
+    console.log(e)
+    return undefined
   }
 }
 
@@ -131,7 +131,7 @@ export const githubGetRequest = async (url, token) => {
     }
     return data
   } catch (e) {
-    console.log('ERROR')
-    console.log('There was an error fetching the data: ' + e)
+    console.log(e)
+    return undefined
   }
 }
