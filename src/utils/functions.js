@@ -131,7 +131,6 @@ const getContributors = (repo, token) => {
   return githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/contributors`, token)
   .then(contributors => {
     if (contributors) {
-      console.log(contributors)
       return contributors.map(({author, total}) => ({author: author.login, total}))
     }
   }).catch(console.log)
@@ -161,13 +160,6 @@ const getOrganisationMembers = async (url, token) => {
   organisationMembers = organisationMembers.map(({avatar_url, id, login}) => ({avatar_url, id, login}))
   return organisationMembers
 }
-
-// export const getGithubOrganisations = async () => {
-//   let token = getToken()
-//   let orgs = await getUserOrganisations(token)
-//   console.log(orgs)
-//   return orgs
-// }
 
 export const capitalizeFirstLetter = (string) => {
   if (typeof string === 'string') {

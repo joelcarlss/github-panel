@@ -4,7 +4,7 @@ export const getUser = async (token) => {
   try {
     let data
     const result = await window.fetch('https://api.github.com/user', {headers: {Authorization: 'token ' + token}})
-    if (result) {
+    if (result.status === 200) {
       data = await result.json()
     }
     return data
@@ -18,7 +18,7 @@ export const getUserRepos = async (token) => {
   try {
     let data
     const result = await window.fetch('https://api.github.com/user/repos', {headers: {Authorization: 'token ' + token}})
-    if (result) {
+    if (result.status === 200) {
       data = await result.json()
     }
     return data
@@ -32,7 +32,7 @@ export const getUserOrganisations = async (token) => {
   try {
     let data
     const result = await window.fetch('https://api.github.com/user/orgs', {headers: {Authorization: 'token ' + token}})
-    if (result) {
+    if (result.status === 200) {
       data = await result.json()
     }
     return data
@@ -47,7 +47,7 @@ export const getUserRepo = async (token, owner, repoName) => {
     let data
     const result = await window.fetch(`https://api.github.com/repos/${owner}/${repoName}`,
     {headers: {Authorization: 'token ' + token}})
-    if (result) {
+    if (result.status === 200) {
       data = await result.json()
     }
     return data
@@ -96,7 +96,6 @@ const sendWebhookRequest = async (token, owner, repoName, data) => {
         method: 'POST'
       })
     let jsonResult = await result.json()
-    console.log(jsonResult)
     return jsonResult
   } catch (e) {
     console.log(e)
@@ -126,7 +125,7 @@ export const githubGetRequest = async (url, token) => {
   try {
     let data
     const result = await window.fetch(url, {headers: {Authorization: 'token ' + token}})
-    if (result) {
+    if (result.status === 200) {
       data = await result.json()
     }
     return data
