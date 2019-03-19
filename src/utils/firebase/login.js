@@ -28,7 +28,7 @@ export function loginUserToGithub () {
 export const logOut = () => {
   firebase.auth().signOut().then(() => {
     console.log('Log out') // TODO: Redirect to /
-    deleteRepos()
+    // deleteRepos()
   }).catch(error => {
     console.log('Log out Failure! ' + error)
   })
