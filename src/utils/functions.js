@@ -1,5 +1,5 @@
 import moment from 'moment'
-import {updateRepoToDatabase, setUserToDb, isUserRepos, updateDatabaseWithGithubDataByToken, populateDatabaseWithGithubDataByToken} from './firebase/database'
+import {updateRepoToDatabase, setUserToDb, isUserRepos, updateDatabaseWithGithubDataByToken, populateDatabaseWithGithubDataByToken, setUserToken, getUserToken} from './firebase/database'
 import { getUserId } from './firebase/utils'
 import {webhookUrl, getUserRepo, getUserRepos, getWebhooks, createWebhook, deleteWebhook, getUser, getUserOrganisations, githubGetRequest} from './github/api'
 
@@ -9,11 +9,13 @@ export const userWebhookUrl = () => {
 }
 
 export const saveToken = (token) => {
-  window.localStorage.setItem('token', token)
+  // window.localStorage.setItem('token', token)
+  setUserToken(token)
 }
 
 export const getToken = () => {
-  return window.localStorage.getItem('token')
+  // return window.localStorage.getItem('token')
+  return getUserToken()
 }
 
 export const saveUserToDb = async () => {
