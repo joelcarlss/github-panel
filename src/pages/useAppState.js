@@ -1,8 +1,8 @@
 import {useEffect, useState, useContext} from 'react'
-import { getToken } from '../utils/functions'
 import { useLocalStorage } from '../utils/hooks'
 import { requestPermission } from '../utils/firebase/messaging'
-import {updateDatabaseWithGithubDataByToken, populateDatabaseWithGithubDataByToken, isUserRepos, setNoticesToRead, onRepos, onOrgs, onNoticeCount} from '../utils/firebase/database'
+import { setUserData } from '../utils/functions'
+import { setNoticesToRead, onRepos, onOrgs, onNoticeCount } from '../utils/firebase/database'
 import createContainer from 'constate'
 
 const useApp = () => {
@@ -15,18 +15,7 @@ const useApp = () => {
 
   useEffect(() => {
     try {
-      let token = getToken() // TODO: Not a local storage variable
-
-      isUserRepos()
-      .then(isRepos => {
-        if (isRepos) {
-          console.log('Updating data')
-          updateDatabaseWithGithubDataByToken(token)
-        } else {
-          console.log('Setting data')
-          populateDatabaseWithGithubDataByToken(token)
-        }
-      })
+      setUserData()
 
       requestPermission()
 
