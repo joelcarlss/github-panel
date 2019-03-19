@@ -30,7 +30,11 @@ const LoginPage = (props) => {
     loginUserToGithub()
   }
   return (
-    <LoginButton onClick={() => onLoginClick()} className={classes.button} />
+    <div style={{width: '100%', height: '100%', position: 'absolute'}}>
+      <LoginButton
+        onClick={() => onLoginClick()}
+        className={classes.button} />
+    </div>
   )
 }
 

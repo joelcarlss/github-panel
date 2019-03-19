@@ -81,7 +81,7 @@ const images = [
   {
     url: '/static/images/grid-list/camera.jpg',
     title: 'Login',
-    width: '30%'
+    width: '500px'
   }
 ]
 
@@ -92,13 +92,17 @@ function LoginButton (props) {
     <div className={classes.root}>
       {images.map(image => (
         <ButtonBase
+          center
           onClick={onClick}
           focusRipple
           key={image.title}
           className={classes.image}
           focusVisibleClassName={classes.focusVisible}
           style={{
-            width: image.width
+            width: image.width,
+            marginLeft: 'auto',
+            marginRight: 'auto',
+            marginTop: '18%'
           }}
         >
           <span
