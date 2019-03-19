@@ -6,6 +6,7 @@ deployhosting:
 	firebase deploy --only hosting
 
 deploy:
+	yarn run build
 	firebase deploy
 
 deployhook:

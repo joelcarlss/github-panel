@@ -20,7 +20,7 @@ export const populateDatabaseWithGithubDataByToken = async (token) => {
     getReposAsObject(token)
     .then(repos => db.collection('repos').doc(user.uid).set(repos)),
     getUserReposAndWebhooksAsObject(token)
-    .then(repos => db.collection('repos').doc(user.uid).update(repos)),
+    .then(repos => db.collection('repos').doc(user.uid).set(repos, {merge: true})),
     getUserOrganisationsAsObject(token)
     .then(orgs => db.collection('organizations').doc(user.uid).set(orgs))
   ])
