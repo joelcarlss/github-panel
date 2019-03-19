@@ -8,11 +8,11 @@ export const userWebhookUrl = () => {
   return `${webhookUrl}?id=${userId}`
 }
 
-export const saveToken = (token) => {
+export const saveGithubToken = (token) => {
   setUserToken(token)
 }
 
-export const getToken = async () => {
+export const getGithubToken = async () => {
   let result = await getUserToken()
   return result.token
 }
@@ -24,7 +24,7 @@ export const saveUserToDb = async () => {
 }
 
 export const setUserData = async () => {
-  let token = await getToken()
+  let token = await getGithubToken()
   isUserRepos()
   .then(isRepos => {
     if (isRepos) {
