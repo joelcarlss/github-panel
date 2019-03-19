@@ -18,7 +18,7 @@ export const getGithubToken = async () => {
 }
 
 export const saveUserToDb = async () => {
-  let token = getGithubToken()
+  let token = await getGithubToken()
   let user = await getUser(token)
   return setUserToDb(user.id, user.login)
 }
@@ -88,7 +88,7 @@ export const getUserOrganisationsAsObject = async (token) => {
 }
 
 export const createWebhookAndUpdateRepo = async (repo) => {
-  let token = getGithubToken()
+  let token = await getGithubToken()
   let userId = getUserId()
   await createWebhook(userId, token, repo)
   let owner = repo.owner.login
@@ -96,9 +96,9 @@ export const createWebhookAndUpdateRepo = async (repo) => {
   updateRepo(owner, repoName)
 }
 
-export const deleteWebhookAndUpdateRepo = (repo) => {
+export const deleteWebhookAndUpdateRepo = async (repo) => {
   if (repo) {
-    let token = getGithubToken()
+    let token = await getGithubToken()
     let owner = repo.owner.login
     let repoName = repo.name
     let hookId = findCorrectHookIdInRepo(repo)
@@ -124,7 +124,7 @@ export const spliceWebhookAndUpdateRepo = (repo) => {
 }
 
 export const updateRepo = async (owner, repoName) => {
-  let token = getGithubToken()
+  let token = await getGithubToken()
   let result = await getUserRepo(token, owner, repoName)
   let allowed = ['id', 'name', 'full_name', 'owner', 'description', 'url', 'permissions']
 
@@ -142,11 +142,6 @@ export const updateRepo = async (owner, repoName) => {
     newRepo.webhooks = repoWebhooks
     updateRepoToDatabase(newRepo)
   })
-}
-
-export const getGithubToken = () => {
-  let token = window.localStorage.getItem('token')
-  return token
 }
 
 export const findCorrectHookIdInRepo = (repo) => {
