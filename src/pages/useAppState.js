@@ -16,19 +16,23 @@ const useApp = () => {
   useEffect(() => {
     try {
       let token = getToken() // TODO: Not a local storage variable
+
+      isUserRepos()
+      .then(isRepos => {
+        if (isRepos) {
+          console.log('Updating data')
+          updateDatabaseWithGithubDataByToken(token)
+        } else {
+          console.log('Setting data')
+          populateDatabaseWithGithubDataByToken(token)
+        }
+      })
+
       requestPermission()
 
       onRepos((doc) => setRepos(doc.data()))
       onOrgs((doc) => setOrgs(doc.data()))
       onNoticeCount((doc) => setNoticeCount(doc))
-
-      if (isUserRepos) {
-        console.log('Updating data')
-        updateDatabaseWithGithubDataByToken(token)
-      } else {
-        console.log('Setting data')
-        populateDatabaseWithGithubDataByToken(token)
-      }
     } catch (e) {
       console.log(e) // TODO: Show data from API instead?
     }

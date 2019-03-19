@@ -22,19 +22,19 @@ export const saveUserToDb = async () => {
   return setUserToDb(user.id, user.login)
 }
 
-// export const getReposAsObject = async (token) => {
-//   let obj = {}
-//   let userRepos = await getUserRepos(token)
+export const getReposAsObject = async (token) => {
+  let obj = {}
+  let userRepos = await getUserRepos(token)
 
-//   if (userRepos) {
-//     userRepos = userRepos.map(({id, name, full_name, owner, description, url, permissions}) => (
-//     {id, name, full_name, owner, description, url, permissions}))
-//     for (let i = 0; i < userRepos.length; i++) {
-//       obj[userRepos[i].id] = userRepos[i]
-//     }
-//   }
-//   return obj
-// }
+  if (userRepos) {
+    userRepos = userRepos.map(({id, name, full_name, owner, description, url, permissions}) => (
+    {id, name, full_name, owner, description, url, permissions}))
+    for (let i = 0; i < userRepos.length; i++) {
+      obj[userRepos[i].id] = userRepos[i]
+    }
+  }
+  return obj
+}
 
 export const getUserReposAndWebhooksAsObject = async (token) => {
   let obj = {}
@@ -82,11 +82,12 @@ export const createWebhookAndUpdateRepo = async (repo) => {
 }
 
 export const deleteWebhookAndUpdateRepo = (repo) => {
-  let token = getGithubToken()
-  let owner = repo.owner.login
-  let repoName = repo.name
-  let hookId = findCorrectHookIdInRepo(repo)
-  deleteWebhook(token, repo, hookId)
+  if (repo) {
+    let token = getGithubToken()
+    let owner = repo.owner.login
+    let repoName = repo.name
+    let hookId = findCorrectHookIdInRepo(repo)
+    deleteWebhook(token, repo, hookId)
   .then(result => {
     if (result.status === 204 || result.status === 404) {
       spliceWebhookAndUpdateRepo(repo)
@@ -95,6 +96,7 @@ export const deleteWebhookAndUpdateRepo = (repo) => {
     }
   }
       )
+  }
 }
 
 export const spliceWebhookAndUpdateRepo = (repo) => {
@@ -133,6 +135,9 @@ export const getGithubToken = () => {
 }
 
 export const findCorrectHookIdInRepo = (repo) => {
+  if (!repo.webhooks) {
+    return null
+  }
   let hooks = repo.webhooks
   let id
   for (let i = 0; i < hooks.length; i++) {
@@ -155,6 +160,9 @@ const getContributors = (repo, token) => {
 }
 
 const getWeeklyCommits = (repo, token) => {
+  if (!repo) {
+    return null
+  }
   let owner = repo.owner.login
   let repoName = repo.name
   return githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/participation`, token)

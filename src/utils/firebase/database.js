@@ -1,11 +1,13 @@
 import firebase from './config'
-import {getUserReposAndWebhooksAsObject, getUserOrganisationsAsObject} from '../functions'
+import {getUserReposAndWebhooksAsObject, getUserOrganisationsAsObject, getReposAsObject} from '../functions'
 
 const db = firebase.firestore()
 
 export const populateDatabaseWithGithubDataByToken = async (token) => {
   let user = await firebase.auth().currentUser
   Promise.all([
+    getReposAsObject(token)
+    .then(repos => db.collection('repos').doc(user.uid).set(repos)),
     getUserReposAndWebhooksAsObject(token)
     .then(repos => db.collection('repos').doc(user.uid).update(repos)),
     getUserOrganisationsAsObject(token)
@@ -140,8 +142,10 @@ export const deleteUserNotices = () => {
 
 export const isUserRepos = () => {
   let user = firebase.auth().currentUser
-  db.collection('repos').doc(user.uid).get()
+  return db.collection('repos').doc(user.uid).get()
   .then(doc => {
+    console.log('Dock exists')
+
     return doc.exists
   })
 }
