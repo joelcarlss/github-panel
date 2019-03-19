@@ -144,8 +144,6 @@ export const isUserRepos = () => {
   let user = firebase.auth().currentUser
   return db.collection('repos').doc(user.uid).get()
   .then(doc => {
-    console.log('Dock exists')
-
     return doc.exists
   })
 }

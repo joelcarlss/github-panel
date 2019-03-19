@@ -180,7 +180,7 @@ const getWeeklyCommits = (repo, token) => {
   let owner = repo.owner.login
   let repoName = repo.name
   return githubGetRequest(`https://api.github.com/repos/${owner}/${repoName}/stats/participation`, token)
-  .then(commits => commits ? commits.all : [])
+  .then(commits => commits.all ? commits.all : [])
   .catch(console.log)
 }
 
