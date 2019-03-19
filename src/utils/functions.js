@@ -9,13 +9,12 @@ export const userWebhookUrl = () => {
 }
 
 export const saveToken = (token) => {
-  // window.localStorage.setItem('token', token)
   setUserToken(token)
 }
 
-export const getToken = () => {
-  // return window.localStorage.getItem('token')
-  return getUserToken()
+export const getToken = async () => {
+  let result = await getUserToken()
+  return result.token
 }
 
 export const saveUserToDb = async () => {
@@ -24,18 +23,18 @@ export const saveUserToDb = async () => {
   return setUserToDb(user.id, user.login)
 }
 
-export const setUserData = () => {
-  let token = getToken()
+export const setUserData = async () => {
+  let token = await getToken()
   isUserRepos()
-      .then(isRepos => {
-        if (isRepos) {
-          console.log('Updating data')
-          updateDatabaseWithGithubDataByToken(token)
-        } else {
-          console.log('Setting data')
-          populateDatabaseWithGithubDataByToken(token)
-        }
-      })
+  .then(isRepos => {
+    if (isRepos) {
+      console.log('Updating data')
+      updateDatabaseWithGithubDataByToken(token)
+    } else {
+      console.log('Setting data')
+      populateDatabaseWithGithubDataByToken(token)
+    }
+  })
 }
 
 export const getReposAsObject = async (token) => {

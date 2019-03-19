@@ -5,7 +5,7 @@ const db = firebase.firestore()
 
 export const setUserToken = async (token) => {
   let user = await firebase.auth().currentUser
-  db.collection('token').doc(user.uid).set(token)
+  db.collection('token').doc(user.uid).set({token})
 }
 
 export const getUserToken = async () => {
