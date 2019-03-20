@@ -11,12 +11,10 @@ var config = {
   messagingSenderId: process.env.REACT_APP_MESSAGING_SENDER_ID
 }
 
-
-
 export default firebase.initializeApp(config)
 
 firebase.firestore().enablePersistence()
-.catch(function(err) {
+.catch(function (err) {
   if (err.code === 'failed-precondition') {
       // Multiple tabs open, persistence can only be enabled
       // in one tab at a a time.

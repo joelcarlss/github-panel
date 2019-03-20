@@ -92,7 +92,6 @@ function LoginButton (props) {
     <div className={classes.root}>
       {images.map(image => (
         <ButtonBase
-          center
           onClick={onClick}
           focusRipple
           key={image.title}
