@@ -61,7 +61,7 @@ The logged in users organisations can be overviewed.
 
 
 ## Client structure
-![Diagram showing client structure](./DevPicures/Client Final.jpg)
+![Diagram showing client structure](./DevPicures/Client&nbsp;Final.jpg)
 
 
 
