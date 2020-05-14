@@ -1,6 +1,35 @@
-## Available on link
-https://joelcarlsson.se
+# Github panel
+A repository overviewer with push notice subscriptions.
+Login through github OAuth verification.
 
+### Repositories
+Menu has repositories and organisations. 
+![Application with menu open](./images/menu_open.png)
+
+Repositories can be subscribed by clickin the subscribe button.
+![Repository that isn't subscribed](./images/unsubscribed.png)
+
+Repositories that are subscribed will recieve push messages for every commit.
+If the application is open, the notices will arrive inside the app. 
+![Repository that is subscribed](./images/subscribed.png)
+
+### Statistics
+Commit statistics for repositories can be viewed by clicking on a repository.
+
+#### Weekly commits
+![Graph over weekly commits](./images/weekly_commits.png)
+The amount of commits for every week,one year back can be viewed.
+
+#### Contributors
+![Graph over commits per user](./images/contributors.png)
+The number of commits made by each user.
+
+### Organisations
+The logged in users organisations can be overviewed.
+![Organisations dashboard](./images/organisations.png)
+
+
+## React
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
