@@ -15,13 +15,18 @@ Overview over repositories
 
 Menu has repositories and organisations. 
 
+#### Subscribe
+
+![Repository that isn't subscribed](./images/unsubscribed.png)
 
 Repositories can be subscribed by clickin the subscribe button.
-![Repository that isn't subscribed](./images/unsubscribed.png)
+
+
+![Repository that is subscribed](./images/subscribed.png)
 
 Repositories that are subscribed will recieve push messages for every commit.
 If the application is open, the notices will arrive inside the app. 
-![Repository that is subscribed](./images/subscribed.png)
+
 
 ### Statistics
 Commit statistics for repositories can be viewed by clicking on a repository.
