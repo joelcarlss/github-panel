@@ -5,7 +5,7 @@ Login through github OAuth verification.
 ### Repositories
 #### Overview
 
-![Overview over repositories](.images/repository_overview.png)
+![Overview over repositories](./images/repository_overview.png)
 
 Overview over repositories
 
