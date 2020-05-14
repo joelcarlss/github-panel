@@ -64,7 +64,7 @@ The logged in users organisations can be overviewed.
 
 #### System structure
 
-![Diagram showing client structure](./DevPicures/SystemFinal.jpg)
+![Diagram showing client structure](./DevPictures/SystemFinal.jpg)
 
 System stucture diagram
 
@@ -72,7 +72,7 @@ System stucture diagram
 
 #### Client structure
 
-![Diagram showing client structure](./DevPicures/ClientFinal.jpg)
+![Diagram showing client structure](./DevPictures/ClientFinal.jpg)
 
 Software stucture diagram
 
@@ -80,7 +80,7 @@ Software stucture diagram
 
 #### Server structure
 
-![Diagram showing server structure](./DevPicures/ServerFinal.jpg)
+![Diagram showing server structure](./DevPictures/ServerFinal.jpg)
 
 Server stucture diagram
 
