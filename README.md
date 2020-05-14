@@ -3,8 +3,18 @@ A repository overviewer with push notice subscriptions.
 Login through github OAuth verification.
 
 ### Repositories
-Menu has repositories and organisations. 
+#### Overview
+
+![Overview over repositories](.images/repository_overview.png)
+
+Overview over repositories
+
+#### Menu
+
 ![Application with menu open](./images/menu_open.png)
+
+Menu has repositories and organisations. 
+
 
 Repositories can be subscribed by clickin the subscribe button.
 ![Repository that isn't subscribed](./images/unsubscribed.png)
@@ -18,10 +28,12 @@ Commit statistics for repositories can be viewed by clicking on a repository.
 
 #### Weekly commits
 ![Graph over weekly commits](./images/weekly_commits.png)
+
 The amount of commits for every week,one year back can be viewed.
 
 #### Contributors
 ![Graph over commits per user](./images/contributors.png)
+
 The number of commits made by each user.
 
 ### Organisations
