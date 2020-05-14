@@ -54,15 +54,35 @@ The amount of commits for every week,one year back can be viewed.
 
 The number of commits made by each user.
 
-### Organisations
+#### Organisations
 The logged in users organisations can be overviewed.
 ![Organisations dashboard](./images/organisations.png)
 
 
 
-## Client structure
-![Diagram showing client structure](./DevPicures/Client&nbsp;Final.jpg)
+### Diagrams
 
+#### System structure
+
+![Diagram showing client structure](./DevPicures/SystemFinal.jpg)
+
+System stucture diagram
+
+
+
+#### Client structure
+
+![Diagram showing client structure](./DevPicures/ClientFinal.jpg)
+
+Software stucture diagram
+
+
+
+#### Server structure
+
+![Diagram showing server structure](./DevPicures/ServerFinal.jpg)
+
+Server stucture diagram
 
 
 
