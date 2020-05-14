@@ -3,17 +3,22 @@ A repository overviewer with push notice subscriptions.
 Login through github OAuth verification.
 
 ### Repositories
+
 #### Overview
 
 ![Overview over repositories](./images/repository_overview.png)
 
 Overview over repositories
 
+
+
 #### Menu
 
 ![Application with menu open](./images/menu_open.png)
 
 Menu has repositories and organisations. 
+
+
 
 #### Subscribe
 
@@ -22,19 +27,27 @@ Menu has repositories and organisations.
 Repositories can be subscribed by clickin the subscribe button.
 
 
+
+#### Notices
+
 ![Repository that is subscribed](./images/subscribed.png)
 
 Repositories that are subscribed will recieve push messages for every commit.
 If the application is open, the notices will arrive inside the app. 
 
 
+
 ### Statistics
 Commit statistics for repositories can be viewed by clicking on a repository.
+
+
 
 #### Weekly commits
 ![Graph over weekly commits](./images/weekly_commits.png)
 
 The amount of commits for every week,one year back can be viewed.
+
+
 
 #### Contributors
 ![Graph over commits per user](./images/contributors.png)
@@ -44,6 +57,13 @@ The number of commits made by each user.
 ### Organisations
 The logged in users organisations can be overviewed.
 ![Organisations dashboard](./images/organisations.png)
+
+
+
+## Client structure
+![Diagram showing client structure](./DevPicures/Client Final.jpg)
+
+
 
 
 ## React
